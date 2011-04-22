@@ -122,17 +122,45 @@ namespace Tilly2D
         {
             int change = e.NewValue - e.OldValue;
 
-            int i = 0;
-            for (int y = 0; y < m_grid_size; y++)
+            if (change != 0)
             {
-                for (int x = 0; x < m_grid_size; x++)
+                int i = 0;
+                for (int y = 0; y < m_grid_size; y++)
                 {
-                    m_tile[i].Location = new Point(m_tile[i].Location.X - change, m_tile[i].Location.Y);
-                    i++;
+                    for (int x = 0; x < m_grid_size; x++)
+                    {
+                        m_tile[i].Location = new Point(m_tile[i].Location.X - change, m_tile[i].Location.Y);
+                        i++;
+                    }
                 }
-            }
 
-            start_x += change;
+                start_x += change;
+            }
+        }
+
+        private void UpdateTile(int x, int y)
+        {
+            int tile_x = (x / m_tile_size) + start_x;
+            int tile_y = (y / m_tile_size) + start_y;
+            int tile_id = (tile_y * m_grid_size) + tile_x;
+
+            //MessageBox.Show(tile_x + ", " + tile_y + " = " + tile_id);
+
+            if( tile_id < m_tile.Count )
+                m_tile[tile_id].Replace(m_sprite[Tile.Active]);
+        }
+
+        private void OnPanelClick(object sender, MouseEventArgs e)
+        {
+            UpdateTile(e.X, e.Y);
+        }
+
+        private void OnPanelDrag(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                UpdateTile(e.X, e.Y);
+            }
         }
     
     }
