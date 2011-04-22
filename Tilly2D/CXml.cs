@@ -20,6 +20,8 @@ namespace Tilly2D
         List<XmlNode> m_sprite_nodes = new List<XmlNode>();
         List<XmlNode> m_animation_nodes = new List<XmlNode>();
 
+        List<CButtonContainer> m_button_list = new List<CButtonContainer>();
+
         public void ReadGraphics(Device dev, List<CSprite> sprite_list, System.Windows.Forms.TabControl tab)
         {
             //The documnet reader itself
@@ -37,10 +39,14 @@ namespace Tilly2D
                     {
                         m_file_nodes.Add(file);
 
+                        String tab_title = file.InnerText;
+                        tab_title = tab_title.Substring(0, tab_title.LastIndexOf("."));
+
                         TabPage tp = new TabPage();
                         tp.Name = file.InnerText;
-                        tp.Text = file.InnerText;
+                        tp.Text = tab_title;
                         tab.TabPages.Add(tp);
+                        m_button_list.Add(new CButtonContainer());
                     }
                 }
             }
@@ -58,9 +64,21 @@ namespace Tilly2D
                         {
                             if (file.Attributes["id"].Value == sprite.Attributes["file"].Value)
                             {
-                                sprite_list.Add(new CSprite(dev, file, sprite));
-                                CButton new_button = new CButton(sprite_list.Count - 1, sprite_list, tab.TabPages[file.InnerText]);
-                                break;
+                                CSprite new_sprite = new CSprite(dev, file, sprite);
+                                bool is_new_sprite = true;
+                                foreach (CSprite sp in sprite_list)
+                                    if (sp.isEqual(new_sprite)) is_new_sprite = false;
+
+                                if( is_new_sprite )
+                                {
+                                    sprite_list.Add(new_sprite);
+                                    CButton new_button = new CButton(sprite_list.Count - 1, sprite_list);
+                                    int tab_id = 0;
+                                    while (tab.TabPages[file.InnerText] != tab.TabPages[tab_id])
+                                        tab_id++;
+                                    m_button_list[tab_id].Add(new_button, tab.TabPages[tab_id]);
+                                    break;
+                                }
                             }
                         }             
                     }

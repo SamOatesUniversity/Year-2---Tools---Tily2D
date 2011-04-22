@@ -22,12 +22,12 @@ namespace Tilly2D
         private String m_file_name;
 
         private Bitmap m_image;
+        private XmlNode m_sprite_node;
 
         public CSprite( Device dev, XmlNode file, XmlNode sprite )
         {
             m_file_name = file.InnerText;
-
-            m_image = new Bitmap("Game\\" + m_file_name);
+            m_sprite_node = sprite;
 
             m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name);
             m_file = Convert.ToInt32(file.Attributes["id"].Value);
@@ -39,6 +39,13 @@ namespace Tilly2D
             m_id = Convert.ToInt32(sprite.Attributes["id"].Value);
 
             m_location = new Point();
+
+            Rectangle destRect = new Rectangle(0, 0, 32, 32);  
+            m_image = new System.Drawing.Bitmap(32, 32);
+            Bitmap full_image = new Bitmap("Game\\" + m_file_name);
+            Graphics gfx = Graphics.FromImage(m_image);
+            gfx.DrawImage(full_image, destRect, m_source, GraphicsUnit.Pixel);
+
         }
 
         public CSprite(Device dev, String location)
@@ -54,11 +61,19 @@ namespace Tilly2D
             m_id = 0;
 
             m_location = new Point();
+
+            Rectangle destRect = new Rectangle(0, 0, 32, 32);
+            m_image = new System.Drawing.Bitmap(32, 32);
+            Bitmap full_image = new Bitmap(m_file_name);
+            Graphics gfx = Graphics.FromImage(m_image);
+            gfx.DrawImage(full_image, destRect, m_source, GraphicsUnit.Pixel);
         }
 
-        public CSprite(Device dev, Texture texture)
+        public CSprite(Device dev, Texture texture, Bitmap bitmap)
         {
-            m_file_name = "";
+            m_file_name = "--";
+
+            m_image = bitmap;
 
             m_file_texture = texture;
             m_file = 0;
@@ -73,10 +88,13 @@ namespace Tilly2D
 
         public void Draw( Sprite sprite, int grid_size )
         {
-            sprite.Begin(SpriteFlags.AlphaBlend);
-            sprite.Draw2D(m_file_texture, m_source, new Rectangle(0, 0, grid_size, grid_size), new Point((int)(m_location.X * (grid_size / (grid_size / 32.0f))),
-                                                                                                          (int)(m_location.Y * (grid_size / (grid_size / 32.0f)))), Color.White);                        
-            sprite.End();
+            if (m_file_texture != null)
+            {
+                sprite.Begin(SpriteFlags.AlphaBlend);
+                sprite.Draw2D(m_file_texture, m_source, new Rectangle(0, 0, grid_size, grid_size), new Point((int)((float)m_location.X * ((float)grid_size / ((float)grid_size / (float)m_source.Width))),
+                                                                                                              (int)(float)(m_location.Y * ((float)grid_size / ((float)grid_size / (float)m_source.Height)))), Color.White);
+                sprite.End();
+            }
         }
 
         public void Release()
@@ -88,6 +106,8 @@ namespace Tilly2D
         {
             m_file_texture = sprite.Texture;
             m_source = sprite.Source;
+            m_image = sprite.Bitmap;
+            m_file_name = sprite.FileName;
         }
 
         public Rectangle Source
@@ -124,6 +144,15 @@ namespace Tilly2D
         public Bitmap Bitmap
         {
             get { return m_image; }
+        }
+
+        public bool isEqual(CSprite against)
+        {
+            if (m_source == against.Source &&
+                m_file == against.FileId)
+                return true;
+
+            return false;
         }
     }
 }
