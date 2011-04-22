@@ -36,7 +36,11 @@ namespace Tilly2D
                     if (file.NodeType == XmlNodeType.Element && file.Name == "file")
                     {
                         m_file_nodes.Add(file);
-                        tab.TabPages.Add(file.InnerText);
+
+                        TabPage tp = new TabPage();
+                        tp.Name = file.InnerText;
+                        tp.Text = file.InnerText;
+                        tab.TabPages.Add(tp);
                     }
                 }
             }
@@ -50,11 +54,12 @@ namespace Tilly2D
                     if (sprite.NodeType == XmlNodeType.Element && sprite.Name == "sprite")
                     {
                         m_sprite_nodes.Add(sprite);
-                        foreach( XmlNode n in m_file_nodes )
+                        foreach( XmlNode file in m_file_nodes )
                         {
-                            if (n.Attributes["id"].Value == sprite.Attributes["file"].Value)
+                            if (file.Attributes["id"].Value == sprite.Attributes["file"].Value)
                             {
-                                sprite_list.Add(new CSprite(dev, n, sprite));
+                                sprite_list.Add(new CSprite(dev, file, sprite));
+                                CButton new_button = new CButton(sprite_list.Count - 1, sprite_list, tab.TabPages[file.InnerText]);
                                 break;
                             }
                         }             

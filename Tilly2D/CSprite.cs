@@ -84,6 +84,22 @@ namespace Tilly2D
             m_file_texture.Dispose();
         }
 
+        public void Replace(CSprite sprite)
+        {
+            m_file_texture = sprite.Texture;
+            m_source = sprite.Source;
+        }
+
+        public Rectangle Source
+        {
+            get { return m_source; }
+        }
+
+        public Texture Texture
+        {
+            get { return m_file_texture; }
+        }
+
         public Point Location
         {
             get { return m_location; }

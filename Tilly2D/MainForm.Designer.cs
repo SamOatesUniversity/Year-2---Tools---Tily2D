@@ -54,20 +54,20 @@
             this.draw_panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.draw_panel.Location = new System.Drawing.Point(210, 34);
-            this.draw_panel.Margin = new System.Windows.Forms.Padding(4);
-            this.draw_panel.MinimumSize = new System.Drawing.Size(640, 480);
+            this.draw_panel.Location = new System.Drawing.Point(158, 28);
+            this.draw_panel.MinimumSize = new System.Drawing.Size(480, 390);
             this.draw_panel.Name = "draw_panel";
-            this.draw_panel.Size = new System.Drawing.Size(640, 545);
+            this.draw_panel.Size = new System.Drawing.Size(480, 443);
             this.draw_panel.TabIndex = 0;
             this.draw_panel.TabStop = false;
+            this.draw_panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnPanelClick);
+            this.draw_panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnPanelDrag);
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 587);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 478);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1116, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(838, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -81,7 +81,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1116, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(838, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -136,20 +136,17 @@
             // 
             this.tileTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tileTab.Location = new System.Drawing.Point(857, 34);
-            this.tileTab.Margin = new System.Windows.Forms.Padding(4);
+            this.tileTab.Location = new System.Drawing.Point(643, 28);
             this.tileTab.Name = "tileTab";
             this.tileTab.SelectedIndex = 0;
-            this.tileTab.Size = new System.Drawing.Size(251, 545);
+            this.tileTab.Size = new System.Drawing.Size(188, 443);
             this.tileTab.TabIndex = 3;
             // 
             // tileDetails
             // 
-            this.tileDetails.Location = new System.Drawing.Point(16, 34);
-            this.tileDetails.Margin = new System.Windows.Forms.Padding(4);
+            this.tileDetails.Location = new System.Drawing.Point(12, 28);
             this.tileDetails.Name = "tileDetails";
-            this.tileDetails.Padding = new System.Windows.Forms.Padding(4);
-            this.tileDetails.Size = new System.Drawing.Size(186, 179);
+            this.tileDetails.Size = new System.Drawing.Size(140, 145);
             this.tileDetails.TabIndex = 4;
             this.tileDetails.TabStop = false;
             this.tileDetails.Text = "Tile Details";
@@ -169,19 +166,16 @@
             "Layer Eight",
             "Layer Nine",
             "Layer Ten"});
-            this.layerCheckBox.Location = new System.Drawing.Point(16, 221);
-            this.layerCheckBox.Margin = new System.Windows.Forms.Padding(4);
+            this.layerCheckBox.Location = new System.Drawing.Point(12, 180);
             this.layerCheckBox.Name = "layerCheckBox";
-            this.layerCheckBox.Size = new System.Drawing.Size(186, 172);
+            this.layerCheckBox.Size = new System.Drawing.Size(140, 137);
             this.layerCheckBox.TabIndex = 5;
             // 
             // layerDetails
             // 
-            this.layerDetails.Location = new System.Drawing.Point(16, 401);
-            this.layerDetails.Margin = new System.Windows.Forms.Padding(4);
+            this.layerDetails.Location = new System.Drawing.Point(12, 326);
             this.layerDetails.Name = "layerDetails";
-            this.layerDetails.Padding = new System.Windows.Forms.Padding(4);
-            this.layerDetails.Size = new System.Drawing.Size(186, 179);
+            this.layerDetails.Size = new System.Drawing.Size(140, 145);
             this.layerDetails.TabIndex = 5;
             this.layerDetails.TabStop = false;
             this.layerDetails.Text = "Layer Details";
@@ -190,9 +184,9 @@
             // 
             this.vScrollBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.vScrollBar.Location = new System.Drawing.Point(829, 34);
+            this.vScrollBar.Location = new System.Drawing.Point(622, 28);
             this.vScrollBar.Name = "vScrollBar";
-            this.vScrollBar.Size = new System.Drawing.Size(21, 545);
+            this.vScrollBar.Size = new System.Drawing.Size(21, 443);
             this.vScrollBar.TabIndex = 6;
             this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Vertical_Scroll);
             // 
@@ -200,17 +194,17 @@
             // 
             this.hScrollBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.hScrollBar.Location = new System.Drawing.Point(210, 559);
+            this.hScrollBar.Location = new System.Drawing.Point(158, 454);
             this.hScrollBar.Name = "hScrollBar";
-            this.hScrollBar.Size = new System.Drawing.Size(619, 21);
+            this.hScrollBar.Size = new System.Drawing.Size(464, 21);
             this.hScrollBar.TabIndex = 7;
             this.hScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Horizontal_Scroll);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1116, 609);
+            this.ClientSize = new System.Drawing.Size(838, 500);
             this.Controls.Add(this.hScrollBar);
             this.Controls.Add(this.vScrollBar);
             this.Controls.Add(this.layerDetails);
@@ -220,8 +214,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.draw_panel);
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(1134, 654);
+            this.MinimumSize = new System.Drawing.Size(854, 538);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tilly2D";
