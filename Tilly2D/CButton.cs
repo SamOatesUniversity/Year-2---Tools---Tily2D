@@ -12,23 +12,32 @@ namespace Tilly2D
         private Button m_button;
         private int m_sprite_id;
 
-        public CButton(int id, List<CSprite> sprite_list, Control parent)
+        public CButton(int id, List<CSprite> sprite_list)
         {
             m_sprite_id = id;
 
             m_button = new Button();
             m_button.Location = new System.Drawing.Point();
-            m_button.Size = sprite_list[id].Size;
+            m_button.Size = new System.Drawing.Size( 32, 32 );
             m_button.Image = sprite_list[id].Bitmap;
             m_button.Click += OnClick;
-            parent.Controls.Add(m_button);
 
         }
 
         public void OnClick(object sender, EventArgs e)
         {
-            //DO MAGIC SHIZZ
             Tile.Active = m_sprite_id;
+        }
+
+        public System.Drawing.Point Location
+        {
+            get { return m_button.Location; }
+            set { m_button.Location = value; }
+        }
+
+        public Button Button
+        {
+            get { return m_button; }
         }
     }
 }
