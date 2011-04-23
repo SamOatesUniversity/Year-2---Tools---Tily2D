@@ -19,7 +19,6 @@ namespace Tilly2D
             using (MainForm main_form = new MainForm())
             {
                 main_form.InitializeDevice();
-                main_form.CreateManagedResources();
                 Application.EnableVisualStyles();
                 Application.Run(main_form);
             }
