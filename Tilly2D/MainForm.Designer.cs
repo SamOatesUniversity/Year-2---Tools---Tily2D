@@ -34,6 +34,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_TileCoord = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel_Zoom = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -48,10 +50,11 @@
             this.label_tile_details_id = new System.Windows.Forms.Label();
             this.pictureBox_TileDetails = new System.Windows.Forms.PictureBox();
             this.layerCheckBox = new System.Windows.Forms.CheckedListBox();
-            this.layerDetails = new System.Windows.Forms.GroupBox();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.zoomBar = new System.Windows.Forms.TrackBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.OpenMapFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.draw_panel)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -78,7 +81,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel_TileCoord,
-            this.toolStripStatusLabel_Zoom});
+            this.toolStripStatusLabel_Zoom,
+            this.toolStripStatusLabel1,
+            this.toolStripProgressBar});
             this.statusStrip1.Location = new System.Drawing.Point(0, 478);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(838, 22);
@@ -96,6 +101,18 @@
             this.toolStripStatusLabel_Zoom.Name = "toolStripStatusLabel_Zoom";
             this.toolStripStatusLabel_Zoom.Size = new System.Drawing.Size(89, 17);
             this.toolStripStatusLabel_Zoom.Text = "          Zoom : x1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(43, 17);
+            this.toolStripStatusLabel1.Text = "            ";
+            // 
+            // toolStripProgressBar
+            // 
+            this.toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // toolStrip1
             // 
@@ -129,6 +146,7 @@
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Click += new System.EventHandler(this.OnOpenMap);
             // 
             // saveToolStripButton
             // 
@@ -152,11 +170,12 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
+            this.helpToolStripButton.Click += new System.EventHandler(this.OnClickHealth);
             // 
             // drawTimer
             // 
             this.drawTimer.Enabled = true;
-            this.drawTimer.Interval = 16;
+            this.drawTimer.Interval = 1;
             this.drawTimer.Tick += new System.EventHandler(this.drawTimer_Tick);
             // 
             // tileTab
@@ -167,7 +186,7 @@
             this.tileTab.Multiline = true;
             this.tileTab.Name = "tileTab";
             this.tileTab.SelectedIndex = 0;
-            this.tileTab.Size = new System.Drawing.Size(188, 396);
+            this.tileTab.Size = new System.Drawing.Size(188, 383);
             this.tileTab.TabIndex = 3;
             // 
             // tileDetails
@@ -235,18 +254,9 @@
             "Layer Ten"});
             this.layerCheckBox.Location = new System.Drawing.Point(12, 180);
             this.layerCheckBox.Name = "layerCheckBox";
-            this.layerCheckBox.Size = new System.Drawing.Size(140, 137);
+            this.layerCheckBox.Size = new System.Drawing.Size(140, 152);
             this.layerCheckBox.TabIndex = 5;
             this.layerCheckBox.Click += new System.EventHandler(this.LayerChange);
-            // 
-            // layerDetails
-            // 
-            this.layerDetails.Location = new System.Drawing.Point(12, 326);
-            this.layerDetails.Name = "layerDetails";
-            this.layerDetails.Size = new System.Drawing.Size(140, 145);
-            this.layerDetails.TabIndex = 5;
-            this.layerDetails.TabStop = false;
-            this.layerDetails.Text = "Layer Details";
             // 
             // vScrollBar
             // 
@@ -280,15 +290,30 @@
             this.zoomBar.Value = 4;
             this.zoomBar.Scroll += new System.EventHandler(this.Zoom);
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(720, 414);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Zoom";
+            // 
+            // OpenMapFileDialog
+            // 
+            this.OpenMapFileDialog.Filter = "Xml files|*.xml";
+            this.OpenMapFileDialog.Title = "Open map xml file";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 500);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.zoomBar);
             this.Controls.Add(this.hScrollBar);
             this.Controls.Add(this.vScrollBar);
-            this.Controls.Add(this.layerDetails);
             this.Controls.Add(this.layerCheckBox);
             this.Controls.Add(this.tileDetails);
             this.Controls.Add(this.tileTab);
@@ -328,7 +353,6 @@
         private System.Windows.Forms.TabControl tileTab;
         private System.Windows.Forms.GroupBox tileDetails;
         private System.Windows.Forms.CheckedListBox layerCheckBox;
-        private System.Windows.Forms.GroupBox layerDetails;
         private System.Windows.Forms.VScrollBar vScrollBar;
         private System.Windows.Forms.HScrollBar hScrollBar;
         private System.Windows.Forms.TrackBar zoomBar;
@@ -338,6 +362,10 @@
         private System.Windows.Forms.Label label_tile_details_position;
         private System.Windows.Forms.Label label_tile_details_id;
         private System.Windows.Forms.Label label_tile_details_tab;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.OpenFileDialog OpenMapFileDialog;
     }
 }
 

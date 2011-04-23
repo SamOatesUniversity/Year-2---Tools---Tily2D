@@ -45,7 +45,11 @@ namespace Tilly2D
             m_file_name = file.InnerText;
             m_sprite_node = sprite;
 
-            m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name);
+            //m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name);
+            m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name, 
+                0, 0, 0, Usage.Dynamic, Format.Unknown, Pool.Default,
+                Filter.None, Filter.None, Color.Black.ToArgb() );
+
             m_file = Convert.ToInt32(file.Attributes["id"].Value);
 
             m_source = new Rectangle(Convert.ToInt32(sprite.Attributes["x"].Value), 

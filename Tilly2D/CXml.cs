@@ -22,6 +22,11 @@ namespace Tilly2D
 
         List<CButtonContainer> m_button_list = new List<CButtonContainer>();
 
+        public void LoadMap(String file_location)
+        {
+
+        }
+
         public void ReadGraphics(Device dev, List<CSprite> sprite_list, System.Windows.Forms.TabControl tab)
         {
             //The documnet reader itself

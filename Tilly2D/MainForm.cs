@@ -48,6 +48,8 @@ namespace Tilly2D
             m_dev.DeviceLost += new EventHandler(DeviceLost);
 
             m_xml.ReadGraphics(m_dev, m_sprite, tileTab);
+
+            CreateNewMap(false);
         }
 
         void DeviceLost(object sender, EventArgs e)
@@ -57,13 +59,23 @@ namespace Tilly2D
 
         public void CreateManagedResources()
         {
+            toolStripProgressBar.Value = 0;
+
             m_draw_sprite = new Sprite(m_dev);
 
-            for( int i = 0; i < m_max_layers; i++ )
+            toolStripProgressBar.Value += 10;
+
+            for (int i = 0; i < m_max_layers; i++)
+            {
                 m_tile.Add(new List<CSprite>());
+                toolStripProgressBar.Value += 1;
+            }
 
             Texture default_tile = TextureLoader.FromFile(m_dev, "tile.bmp");
             Bitmap default_tile_bitmap = new Bitmap("tile.bmp");
+
+            toolStripProgressBar.Value += 10;
+
             for (int y = 0; y < m_grid_size; y++)
             {
                 for (int x = 0; x < m_grid_size; x++)
@@ -73,6 +85,7 @@ namespace Tilly2D
                     m_tile[0].Add(new_tile);
                 }
             }
+            toolStripProgressBar.Value += 15;
 
             for (int l = 1; l < m_max_layers; l++)
             {
@@ -85,26 +98,41 @@ namespace Tilly2D
                         m_tile[l].Add(new_tile);
                     }
                 }
+                toolStripProgressBar.Value += 5;
             }
 
             m_default_tile = new CSprite(m_dev, default_tile, default_tile_bitmap);
+
+            toolStripProgressBar.Value += 10;
 
             Tile.PictureBox.Image = m_default_tile.Bitmap;
         }
 
         private void DestoryManagedResources()
         {
+            toolStripProgressBar.Value = 0;
             m_draw_sprite.Dispose();
+
+            toolStripProgressBar.Value += 10;
+
             for (int l = 1; l < m_max_layers; l++)
             {
                 m_tile[l].Clear();
+                toolStripProgressBar.Value += 5;
             }
             m_tile.Clear();
-            m_default_tile.Release();
+
+            toolStripProgressBar.Value += 30;
+
+            GC.Collect();
+
+            toolStripProgressBar.Value += 10;
         }
 
         void Draw()
         {
+            if (m_tile.Count == 0) return;
+
             m_dev.Clear(ClearFlags.Target, Color.Black, 1.0f, 0);
             m_dev.BeginScene();
 
@@ -186,7 +214,7 @@ namespace Tilly2D
             int tile_y = (y / m_tile_size) + start_y;
             int tile_id = (tile_y * m_grid_size) + tile_x;
 
-            if (tile_id < m_tile[Tile.ActiveLayer].Count && tile_id >= 0)
+            if (tile_id < m_tile[Tile.ActiveLayer].Count && tile_id >= 0 && layerCheckBox.GetItemChecked(Tile.ActiveLayer))
             {
                 if (left_click)
                     m_tile[Tile.ActiveLayer][tile_id].Replace(m_sprite[Tile.Active]);
@@ -254,14 +282,32 @@ namespace Tilly2D
             Tile.ActiveLayer = selected;
         }
 
-        private void NewMap(object sender, EventArgs e)
+        private void CreateNewMap(bool destroy)
         {
             NewMapForm form = new NewMapForm();
             form.ShowDialog();
 
             m_grid_size = form.MapSize;
-            DestoryManagedResources();
+            if(destroy) DestoryManagedResources();
             CreateManagedResources();
-        } 
+        }
+
+        private void NewMap(object sender, EventArgs e)
+        {
+            CreateNewMap(true);
+        }
+
+        private void OnClickHealth(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://samoatesgames.com/project-uni-ATD.html"); 
+        }
+
+        private void OnOpenMap(object sender, EventArgs e)
+        {
+            if (OpenMapFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                m_xml.LoadMap(OpenMapFileDialog.FileName);
+            }
+        }
     }
 }

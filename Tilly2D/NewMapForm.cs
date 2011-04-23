@@ -13,6 +13,7 @@ namespace Tilly2D
     {
         public NewMapForm()
         {
+            Application.EnableVisualStyles();
             InitializeComponent();
         }
 
