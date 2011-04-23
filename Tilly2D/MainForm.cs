@@ -16,6 +16,7 @@ namespace Tilly2D
     {
         private int m_tile_size = 32;
         private int m_grid_size = 64;
+        private int m_max_layers = 10;
 
         private int start_x = 0;
         private int start_y = 0;
@@ -24,7 +25,7 @@ namespace Tilly2D
         private Sprite m_draw_sprite;
         private CSprite m_default_tile;
         private List<CSprite> m_sprite = new List<CSprite>();
-        private List<CSprite> m_tile = new List<CSprite>();
+        private List<List<CSprite>> m_tile = new List<List<CSprite>>();
         private CXml m_xml = new CXml();
 
         public MainForm()
@@ -45,7 +46,8 @@ namespace Tilly2D
 
             m_dev = new Device(0, DeviceType.Hardware, this.draw_panel, CreateFlags.SoftwareVertexProcessing, pp);
             m_dev.DeviceLost += new EventHandler(DeviceLost);
- 
+
+            m_xml.ReadGraphics(m_dev, m_sprite, tileTab);
         }
 
         void DeviceLost(object sender, EventArgs e)
@@ -55,9 +57,10 @@ namespace Tilly2D
 
         public void CreateManagedResources()
         {
-            m_xml.ReadGraphics(m_dev, m_sprite, tileTab);
-
             m_draw_sprite = new Sprite(m_dev);
+
+            for( int i = 0; i < m_max_layers; i++ )
+                m_tile.Add(new List<CSprite>());
 
             Texture default_tile = TextureLoader.FromFile(m_dev, "tile.bmp");
             Bitmap default_tile_bitmap = new Bitmap("tile.bmp");
@@ -67,7 +70,20 @@ namespace Tilly2D
                 {
                     CSprite new_tile = new CSprite(m_dev, default_tile, default_tile_bitmap);
                     new_tile.Location = new Point(x, y);
-                    m_tile.Add(new_tile);
+                    m_tile[0].Add(new_tile);
+                }
+            }
+
+            for (int l = 1; l < m_max_layers; l++)
+            {
+                for (int y = 0; y < m_grid_size; y++)
+                {
+                    for (int x = 0; x < m_grid_size; x++)
+                    {
+                        CSprite new_tile = new CSprite();
+                        new_tile.Location = new Point(x, y);
+                        m_tile[l].Add(new_tile);
+                    }
                 }
             }
 
@@ -76,29 +92,46 @@ namespace Tilly2D
             Tile.PictureBox.Image = m_default_tile.Bitmap;
         }
 
+        private void DestoryManagedResources()
+        {
+            m_draw_sprite.Dispose();
+            for (int l = 1; l < m_max_layers; l++)
+            {
+                m_tile[l].Clear();
+            }
+            m_tile.Clear();
+            m_default_tile.Release();
+        }
+
         void Draw()
         {
             m_dev.Clear(ClearFlags.Target, Color.Black, 1.0f, 0);
             m_dev.BeginScene();
 
-            int tile_count_x = (int)(draw_panel.Width / m_tile_size) + 1;
-            int tile_count_y = (int)(draw_panel.Height / m_tile_size) + 1;
-
-            tile_count_x = tile_count_x > m_grid_size ? m_grid_size : tile_count_x;
-            tile_count_y = tile_count_y > m_grid_size ? m_grid_size : tile_count_y;
-
-            int i = (start_y * m_grid_size) + start_x;
-            for (int y = 0; y < tile_count_y; y++)
+            for (int l = 0; l < m_max_layers; l++)
             {
-                for (int x = 0; x < tile_count_x; x++)
+                if (layerCheckBox.GetItemChecked(l))
                 {
-                    if (i < m_tile.Count)
+                    int tile_count_x = (int)(draw_panel.Width / m_tile_size) + 1;
+                    int tile_count_y = (int)(draw_panel.Height / m_tile_size) + 1;
+
+                    tile_count_x = tile_count_x > m_grid_size ? m_grid_size : tile_count_x;
+                    tile_count_y = tile_count_y > m_grid_size ? m_grid_size : tile_count_y;
+
+                    int i = (start_y * m_grid_size) + start_x;
+                    for (int y = 0; y < tile_count_y; y++)
                     {
-                        m_tile[i].Draw(m_draw_sprite, m_tile_size);
-                        i++;
+                        for (int x = 0; x < tile_count_x; x++)
+                        {
+                            if (i < m_tile[l].Count)
+                            {
+                                m_tile[l][i].Draw(m_draw_sprite, m_tile_size);
+                                i++;
+                            }
+                        }
+                        i += m_grid_size - tile_count_x;
                     }
                 }
-                i += m_grid_size - tile_count_x;
             }
 
             m_dev.EndScene();
@@ -119,7 +152,7 @@ namespace Tilly2D
             {
                 for (int x = 0; x < m_grid_size; x++)
                 {
-                    m_tile[i].Location = new Point(m_tile[i].Location.X, m_tile[i].Location.Y - change);
+                    m_tile[Tile.ActiveLayer][i].Location = new Point(m_tile[Tile.ActiveLayer][i].Location.X, m_tile[Tile.ActiveLayer][i].Location.Y - change);
                     i++;
                 }
             }
@@ -138,7 +171,7 @@ namespace Tilly2D
                 {
                     for (int x = 0; x < m_grid_size; x++)
                     {
-                        m_tile[i].Location = new Point(m_tile[i].Location.X - change, m_tile[i].Location.Y);
+                        m_tile[Tile.ActiveLayer][i].Location = new Point(m_tile[Tile.ActiveLayer][i].Location.X - change, m_tile[Tile.ActiveLayer][i].Location.Y);
                         i++;
                     }
                 }
@@ -153,12 +186,12 @@ namespace Tilly2D
             int tile_y = (y / m_tile_size) + start_y;
             int tile_id = (tile_y * m_grid_size) + tile_x;
 
-            if (tile_id < m_tile.Count && tile_id >= 0)
+            if (tile_id < m_tile[Tile.ActiveLayer].Count && tile_id >= 0)
             {
                 if (left_click)
-                    m_tile[tile_id].Replace(m_sprite[Tile.Active]);
+                    m_tile[Tile.ActiveLayer][tile_id].Replace(m_sprite[Tile.Active]);
                 else
-                    m_tile[tile_id].Replace(m_default_tile);
+                    m_tile[Tile.ActiveLayer][tile_id].Replace(m_default_tile);
             }
         }
 
@@ -181,7 +214,7 @@ namespace Tilly2D
             int tile_x = (e.X / m_tile_size) + start_x;
             int tile_y = (e.Y / m_tile_size) + start_y;
             int tile_id = (tile_y * m_grid_size) + tile_x;
-            if (tile_id >= 0 && tile_id < m_tile.Count)
+            if (tile_id >= 0 && tile_id < m_tile[Tile.ActiveLayer].Count)
             {
                 toolStripStatusLabel_TileCoord.Text = "Tile[" + tile_id + "] : " + tile_x + ", " + tile_y;
                 UpdateTileDetails(tile_x, tile_y, tile_id);
@@ -191,10 +224,15 @@ namespace Tilly2D
 
         private void UpdateTileDetails(int x, int y, int id)
         {
-            Tile.PictureBox.Image = m_tile[id].Bitmap;
+            Tile.PictureBox.Image = m_tile[Tile.ActiveLayer][id].Bitmap;
             label_tile_details_id.Text = "id : " + id;
             label_tile_details_position.Text = "position : " + x + " , " + y;
-            label_tile_details_tab.Text = "tab : " + (m_tile[id].FileName.Substring(0, m_tile[id].FileName.LastIndexOf(".") > 0 ? m_tile[id].FileName.LastIndexOf(".") : m_tile[id].FileName.Length));
+
+            String tab = "--";
+            if( m_tile[Tile.ActiveLayer][id].FileName != null )
+                tab = m_tile[Tile.ActiveLayer][id].FileName.Substring(0, m_tile[Tile.ActiveLayer][id].FileName.LastIndexOf(".") > 0 ? m_tile[Tile.ActiveLayer][id].FileName.LastIndexOf(".") : m_tile[Tile.ActiveLayer][id].FileName.Length);
+
+            label_tile_details_tab.Text = "tab : " + tab;
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -208,6 +246,22 @@ namespace Tilly2D
 
             toolStripStatusLabel_Zoom.Text = "          Zoom : x" + (m_tile_size / 32.0f);
 
-        }    
+        }
+
+        private void LayerChange(object sender, EventArgs e)
+        {
+            int selected = ((CheckedListBox)sender).SelectedIndex;
+            Tile.ActiveLayer = selected;
+        }
+
+        private void NewMap(object sender, EventArgs e)
+        {
+            NewMapForm form = new NewMapForm();
+            form.ShowDialog();
+
+            m_grid_size = form.MapSize;
+            DestoryManagedResources();
+            CreateManagedResources();
+        } 
     }
 }

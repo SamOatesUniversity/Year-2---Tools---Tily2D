@@ -9,5 +9,6 @@ namespace Tilly2D
     {
         public static int Active = 0;
         public static System.Windows.Forms.PictureBox PictureBox;
+        public static int ActiveLayer = 0;
     }
 }

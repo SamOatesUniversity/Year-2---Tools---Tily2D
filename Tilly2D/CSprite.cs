@@ -24,6 +24,22 @@ namespace Tilly2D
         private Bitmap m_image;
         private XmlNode m_sprite_node;
 
+        public CSprite()
+        {
+            m_file_name = null;
+            m_sprite_node = null;
+
+            m_file_texture = null;
+            m_file = -1;
+
+            m_source = new Rectangle(0, 0, 32, 32);
+            m_id = -1;
+
+            m_location = new Point();
+
+            m_image = null;
+        }
+
         public CSprite( Device dev, XmlNode file, XmlNode sprite )
         {
             m_file_name = file.InnerText;
