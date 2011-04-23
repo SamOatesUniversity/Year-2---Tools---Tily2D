@@ -306,7 +306,7 @@ namespace Tilly2D
         {
             if (OpenMapFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                m_xml.LoadMap(OpenMapFileDialog.FileName);
+                m_xml.LoadMap(OpenMapFileDialog.FileName, m_tile, m_sprite);
             }
         }
     }
