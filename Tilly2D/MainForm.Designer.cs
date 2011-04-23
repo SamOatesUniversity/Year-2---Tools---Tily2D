@@ -43,21 +43,21 @@
             this.drawTimer = new System.Windows.Forms.Timer(this.components);
             this.tileTab = new System.Windows.Forms.TabControl();
             this.tileDetails = new System.Windows.Forms.GroupBox();
+            this.label_tile_details_tab = new System.Windows.Forms.Label();
+            this.label_tile_details_position = new System.Windows.Forms.Label();
+            this.label_tile_details_id = new System.Windows.Forms.Label();
+            this.pictureBox_TileDetails = new System.Windows.Forms.PictureBox();
             this.layerCheckBox = new System.Windows.Forms.CheckedListBox();
             this.layerDetails = new System.Windows.Forms.GroupBox();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.zoomBar = new System.Windows.Forms.TrackBar();
-            this.pictureBox_TileDetails = new System.Windows.Forms.PictureBox();
-            this.label_tile_details_id = new System.Windows.Forms.Label();
-            this.label_tile_details_position = new System.Windows.Forms.Label();
-            this.label_tile_details_tab = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.draw_panel)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tileDetails.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.zoomBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TileDetails)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zoomBar)).BeginInit();
             this.SuspendLayout();
             // 
             // draw_panel
@@ -119,6 +119,7 @@
             this.newToolStripButton.Name = "newToolStripButton";
             this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Click += new System.EventHandler(this.NewMap);
             // 
             // openToolStripButton
             // 
@@ -182,6 +183,41 @@
             this.tileDetails.TabStop = false;
             this.tileDetails.Text = "Tile Details";
             // 
+            // label_tile_details_tab
+            // 
+            this.label_tile_details_tab.AutoSize = true;
+            this.label_tile_details_tab.Location = new System.Drawing.Point(6, 54);
+            this.label_tile_details_tab.Name = "label_tile_details_tab";
+            this.label_tile_details_tab.Size = new System.Drawing.Size(37, 13);
+            this.label_tile_details_tab.TabIndex = 3;
+            this.label_tile_details_tab.Text = "tab : --";
+            // 
+            // label_tile_details_position
+            // 
+            this.label_tile_details_position.AutoSize = true;
+            this.label_tile_details_position.Location = new System.Drawing.Point(44, 38);
+            this.label_tile_details_position.Name = "label_tile_details_position";
+            this.label_tile_details_position.Size = new System.Drawing.Size(73, 13);
+            this.label_tile_details_position.TabIndex = 2;
+            this.label_tile_details_position.Text = "position : -- , --";
+            // 
+            // label_tile_details_id
+            // 
+            this.label_tile_details_id.AutoSize = true;
+            this.label_tile_details_id.Location = new System.Drawing.Point(44, 19);
+            this.label_tile_details_id.Name = "label_tile_details_id";
+            this.label_tile_details_id.Size = new System.Drawing.Size(30, 13);
+            this.label_tile_details_id.TabIndex = 1;
+            this.label_tile_details_id.Text = "id : --";
+            // 
+            // pictureBox_TileDetails
+            // 
+            this.pictureBox_TileDetails.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox_TileDetails.Name = "pictureBox_TileDetails";
+            this.pictureBox_TileDetails.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox_TileDetails.TabIndex = 0;
+            this.pictureBox_TileDetails.TabStop = false;
+            // 
             // layerCheckBox
             // 
             this.layerCheckBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -201,6 +237,7 @@
             this.layerCheckBox.Name = "layerCheckBox";
             this.layerCheckBox.Size = new System.Drawing.Size(140, 137);
             this.layerCheckBox.TabIndex = 5;
+            this.layerCheckBox.Click += new System.EventHandler(this.LayerChange);
             // 
             // layerDetails
             // 
@@ -243,41 +280,6 @@
             this.zoomBar.Value = 4;
             this.zoomBar.Scroll += new System.EventHandler(this.Zoom);
             // 
-            // pictureBox_TileDetails
-            // 
-            this.pictureBox_TileDetails.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox_TileDetails.Name = "pictureBox_TileDetails";
-            this.pictureBox_TileDetails.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox_TileDetails.TabIndex = 0;
-            this.pictureBox_TileDetails.TabStop = false;
-            // 
-            // label_tile_details_id
-            // 
-            this.label_tile_details_id.AutoSize = true;
-            this.label_tile_details_id.Location = new System.Drawing.Point(44, 19);
-            this.label_tile_details_id.Name = "label_tile_details_id";
-            this.label_tile_details_id.Size = new System.Drawing.Size(30, 13);
-            this.label_tile_details_id.TabIndex = 1;
-            this.label_tile_details_id.Text = "id : --";
-            // 
-            // label_tile_details_position
-            // 
-            this.label_tile_details_position.AutoSize = true;
-            this.label_tile_details_position.Location = new System.Drawing.Point(44, 38);
-            this.label_tile_details_position.Name = "label_tile_details_position";
-            this.label_tile_details_position.Size = new System.Drawing.Size(73, 13);
-            this.label_tile_details_position.TabIndex = 2;
-            this.label_tile_details_position.Text = "position : -- , --";
-            // 
-            // label_tile_details_tab
-            // 
-            this.label_tile_details_tab.AutoSize = true;
-            this.label_tile_details_tab.Location = new System.Drawing.Point(6, 54);
-            this.label_tile_details_tab.Name = "label_tile_details_tab";
-            this.label_tile_details_tab.Size = new System.Drawing.Size(37, 13);
-            this.label_tile_details_tab.TabIndex = 3;
-            this.label_tile_details_tab.Text = "tab : --";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,8 +307,8 @@
             this.toolStrip1.PerformLayout();
             this.tileDetails.ResumeLayout(false);
             this.tileDetails.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.zoomBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TileDetails)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zoomBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
