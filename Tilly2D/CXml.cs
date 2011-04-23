@@ -22,8 +22,46 @@ namespace Tilly2D
 
         List<CButtonContainer> m_button_list = new List<CButtonContainer>();
 
-        public void LoadMap(String file_location)
+        public void LoadMap(String file_location, List<List<CSprite>> m_tile, List<CSprite> m_sprite)
         {
+            foreach( List<CSprite> tile in m_tile )
+            {
+                tile.Clear();
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(file_location);
+            XmlElement root = doc.DocumentElement;
+
+            XmlNode level_node = root.SelectSingleNode("//Level");
+
+            XmlNodeList map_list = root.SelectNodes("//map");
+
+            foreach (XmlNode map in map_list)
+            {
+                int layer = Convert.ToInt32(map.Attributes["z_depth"].Value) - 1;
+                foreach (XmlNode tile in map.ChildNodes)
+                {
+                    if (tile.Name == "tile")
+                    {
+                        int sprite_id = Convert.ToInt32( tile.Attributes["sp"].Value );
+                        int sprite_x = Convert.ToInt32( tile.Attributes["x"].Value );
+                        int sprite_y = Convert.ToInt32( tile.Attributes["y"].Value );
+
+                        CSprite new_tile = new CSprite();
+                        foreach (CSprite sp in m_sprite)
+                        {
+                            if (sp.Id == sprite_id)
+                            {
+                                new_tile = sp;
+                                new_tile.Location = new System.Drawing.Point(sprite_x, sprite_y);
+                            }
+                        }
+
+                        m_tile[layer].Add(new_tile);
+                    }
+                }
+            }
 
         }
 
@@ -74,7 +112,7 @@ namespace Tilly2D
                                 foreach (CSprite sp in sprite_list)
                                     if (sp.isEqual(new_sprite)) is_new_sprite = false;
 
-                                if( is_new_sprite )
+                                if (is_new_sprite)
                                 {
                                     sprite_list.Add(new_sprite);
                                     CButton new_button = new CButton(sprite_list.Count - 1, sprite_list);

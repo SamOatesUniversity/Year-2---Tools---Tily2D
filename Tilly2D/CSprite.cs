@@ -45,11 +45,6 @@ namespace Tilly2D
             m_file_name = file.InnerText;
             m_sprite_node = sprite;
 
-            //m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name);
-            m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name, 
-                0, 0, 0, Usage.Dynamic, Format.Unknown, Pool.Default,
-                Filter.None, Filter.None, Color.Black.ToArgb() );
-
             m_file = Convert.ToInt32(file.Attributes["id"].Value);
 
             m_source = new Rectangle(Convert.ToInt32(sprite.Attributes["x"].Value), 
@@ -65,6 +60,10 @@ namespace Tilly2D
             Bitmap full_image = new Bitmap("Game\\" + m_file_name);
             Graphics gfx = Graphics.FromImage(m_image);
             gfx.DrawImage(full_image, destRect, m_source, GraphicsUnit.Pixel);
+
+            m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name,
+                full_image.Width, full_image.Height, 1, Usage.None, Format.Unknown, Pool.Default,
+                Filter.None, Filter.None, Color.Black.ToArgb());
 
         }
 
@@ -149,6 +148,11 @@ namespace Tilly2D
         public int FileId
         {
             get { return m_file; }
+        }
+
+        public int Id
+        {
+            get { return m_id; }
         }
 
         public String FileName
