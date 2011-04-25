@@ -26,6 +26,7 @@ namespace Tilly2D
         private CSprite m_default_tile;
         private List<CSprite> m_sprite = new List<CSprite>();
         private List<List<CSprite>> m_tile = new List<List<CSprite>>();
+        private List<CSprite> m_base_layer = new List<CSprite>();
         private CXml m_xml = new CXml();
 
         public MainForm()
@@ -82,12 +83,12 @@ namespace Tilly2D
                 {
                     CSprite new_tile = new CSprite(m_dev, default_tile, default_tile_bitmap);
                     new_tile.Location = new Point(x, y);
-                    m_tile[0].Add(new_tile);
+                    m_base_layer.Add(new_tile);
                 }
             }
             toolStripProgressBar.Value += 15;
 
-            for (int l = 1; l < m_max_layers; l++)
+            for (int l = 0; l < m_max_layers; l++)
             {
                 for (int y = 0; y < m_grid_size; y++)
                 {
@@ -101,9 +102,9 @@ namespace Tilly2D
                 toolStripProgressBar.Value += 5;
             }
 
-            m_default_tile = new CSprite(m_dev, default_tile, default_tile_bitmap);
+            m_default_tile = new CSprite();
 
-            toolStripProgressBar.Value += 10;
+            toolStripProgressBar.Value += 5;
 
             Tile.PictureBox.Image = m_default_tile.Bitmap;
         }
@@ -136,17 +137,31 @@ namespace Tilly2D
             m_dev.Clear(ClearFlags.Target, Color.Black, 1.0f, 0);
             m_dev.BeginScene();
 
+            int tile_count_x = (int)(draw_panel.Width / m_tile_size) + 1;
+            int tile_count_y = (int)(draw_panel.Height / m_tile_size) + 1;
+
+            tile_count_x = tile_count_x > m_grid_size ? m_grid_size : tile_count_x;
+            tile_count_y = tile_count_y > m_grid_size ? m_grid_size : tile_count_y;
+
+            int i = (start_y * m_grid_size) + start_x;
+            for (int y = 0; y < tile_count_y; y++)
+            {
+                for (int x = 0; x < tile_count_x; x++)
+                {
+                    if (i < m_base_layer.Count)
+                    {
+                        m_base_layer[i].Draw(m_draw_sprite, m_tile_size);
+                        i++;
+                    }
+                }
+                i += m_grid_size - tile_count_x;
+            }
+
             for (int l = 0; l < m_max_layers; l++)
             {
                 if (layerCheckBox.GetItemChecked(l))
                 {
-                    int tile_count_x = (int)(draw_panel.Width / m_tile_size) + 1;
-                    int tile_count_y = (int)(draw_panel.Height / m_tile_size) + 1;
-
-                    tile_count_x = tile_count_x > m_grid_size ? m_grid_size : tile_count_x;
-                    tile_count_y = tile_count_y > m_grid_size ? m_grid_size : tile_count_y;
-
-                    int i = (start_y * m_grid_size) + start_x;
+                    i = (start_y * m_grid_size) + start_x;
                     for (int y = 0; y < tile_count_y; y++)
                     {
                         for (int x = 0; x < tile_count_x; x++)
@@ -180,9 +195,6 @@ namespace Tilly2D
 
         private void Vertical_Scroll(object sender, ScrollEventArgs e)
         {
-            //Somewhere in here is broken...
-            //scrolling is broke on multiple layers.
-
             int change = e.NewValue - e.OldValue;
 
             if (change != 0)
