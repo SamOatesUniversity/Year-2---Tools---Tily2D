@@ -22,12 +22,132 @@ namespace Tilly2D
 
         List<CButtonContainer> m_button_list = new List<CButtonContainer>();
 
-        public void LoadMap(String file_location, List<List<CSprite>> m_tile, List<CSprite> m_sprite)
+        public void saveMap(string location, List<List<CSprite>> m_tile, List<CSprite> m_sprite, int grid_size, CheckedListBox layers_checkbox)
         {
-            foreach( List<CSprite> tile in m_tile )
+            XmlDocument doc = new XmlDocument();
+
+            XmlNode GameElement = doc.CreateNode(XmlNodeType.Element, "Game", "");
+            doc.AppendChild(GameElement);
+
+            XmlAttribute GameAttribute = doc.CreateAttribute("name");
+            GameAttribute.Value = "Gauntlet";
+            GameElement.Attributes.Append(GameAttribute);
+
+            XmlNode GameDataElement = doc.CreateNode(XmlNodeType.Element, "GameData", "");
+            GameElement.AppendChild(GameDataElement);
+
+            XmlNode ScrollArea = doc.CreateNode(XmlNodeType.Element, "scroll_area", "");
+            XmlAttribute TripWndX = doc.CreateAttribute("TripWndX");
+            TripWndX.Value = grid_size.ToString();
+            XmlAttribute TripWndY = doc.CreateAttribute("TripWndY");
+            TripWndY.Value = grid_size.ToString();
+
+            ScrollArea.Attributes.Append(TripWndX);
+            ScrollArea.Attributes.Append(TripWndY);
+            GameDataElement.AppendChild(ScrollArea);
+
+            XmlNode Level = doc.CreateNode(XmlNodeType.Element, "Level", "");
+            GameElement.AppendChild(Level);
+
+            XmlAttribute LevelId = doc.CreateAttribute("id");
+            LevelId.Value = (1).ToString(); // level id
+            Level.Attributes.Append(LevelId);
+
+            XmlAttribute LevelName = doc.CreateAttribute("name");
+            LevelName.Value = "level_name"; // level name
+            Level.Attributes.Append(LevelName);
+
+            XmlNode StartPosition = doc.CreateNode(XmlNodeType.Element, "startposition", "");
+            Level.AppendChild(StartPosition);
+
+            XmlAttribute StartPositionX = doc.CreateAttribute("x");
+            StartPositionX.Value = (210).ToString(); // start x
+            StartPosition.Attributes.Append(StartPositionX);
+
+            XmlAttribute StartPositionY = doc.CreateAttribute("y");
+            StartPositionY.Value = (210).ToString(); // start x
+            StartPosition.Attributes.Append(StartPositionY);
+
+            XmlNode MapList = doc.CreateNode(XmlNodeType.Element, "MapList", "");
+            Level.AppendChild(MapList);
+
+            int layerCount = 0;
+
+            foreach (List<CSprite> layer in m_tile)
             {
-                tile.Clear();
+                XmlNode Map = doc.CreateNode(XmlNodeType.Element, "map", "");
+                MapList.AppendChild(Map);
+
+                XmlAttribute MapName = doc.CreateAttribute("name");
+                MapName.Value = layers_checkbox.Items[layerCount].ToString();
+                Map.Attributes.Append(MapName);
+
+                XmlAttribute MapLayer = doc.CreateAttribute("z_depth");
+                MapLayer.Value = (layerCount + 1).ToString();
+                Map.Attributes.Append(MapLayer);
+
+                XmlAttribute MapWidth = doc.CreateAttribute("width");
+                MapWidth.Value = grid_size.ToString();
+                Map.Attributes.Append(MapWidth);
+
+                XmlAttribute MapHeight = doc.CreateAttribute("height");
+                MapHeight.Value = grid_size.ToString();
+                Map.Attributes.Append(MapHeight);
+
+                XmlAttribute MapXsz = doc.CreateAttribute("xsz");
+                MapXsz.Value = "32";
+                Map.Attributes.Append(MapXsz);
+
+                XmlAttribute MapYsz = doc.CreateAttribute("ysz");
+                MapYsz.Value = "32";
+                Map.Attributes.Append(MapYsz);
+
+                XmlAttribute DrawType = doc.CreateAttribute("drawtype");
+                DrawType.Value = "2";
+                Map.Attributes.Append(DrawType);
+
+                foreach (CSprite sprite in layer)
+                {
+                    //<tile  sp="22" x="17" y="0" />
+                    if (sprite.Id > 0)
+                    {
+                        XmlNode Tile = doc.CreateNode(XmlNodeType.Element, "tile", "");
+                        Map.AppendChild(Tile);
+
+                        XmlAttribute SpriteID = doc.CreateAttribute("sp");
+                        SpriteID.Value = sprite.Id.ToString();
+                        Tile.Attributes.Append(SpriteID);
+
+                        XmlAttribute SpriteX = doc.CreateAttribute("x");
+                        SpriteX.Value = sprite.Location.X.ToString();
+                        Tile.Attributes.Append(SpriteX);
+
+                        XmlAttribute SpriteY = doc.CreateAttribute("y");
+                        SpriteY.Value = sprite.Location.Y.ToString();
+                        Tile.Attributes.Append(SpriteY);
+                    }
+                }
+
+                layerCount++;
             }
+
+            doc.Save(location);
+        }
+
+        public void prepareMap(String file_location, ref int grid_size)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(file_location);
+            XmlElement root = doc.DocumentElement;
+
+            XmlNode area = root.SelectSingleNode("//scroll_area");
+
+            grid_size = Convert.ToInt32(area.Attributes["TripWndX"].Value);
+        }
+
+        public void LoadMap(String file_location, List<List<CSprite>> m_tile, List<CSprite> m_sprite, ref CheckedListBox layers_checkbox)
+        {
+            //resize, replace with new sprite.
 
             XmlDocument doc = new XmlDocument();
             doc.Load(file_location);
@@ -40,6 +160,7 @@ namespace Tilly2D
             foreach (XmlNode map in map_list)
             {
                 int layer = Convert.ToInt32(map.Attributes["z_depth"].Value) - 1;
+                layers_checkbox.Items[layer] = map.Attributes["name"].Value;
                 foreach (XmlNode tile in map.ChildNodes)
                 {
                     if (tile.Name == "tile")
@@ -47,18 +168,20 @@ namespace Tilly2D
                         int sprite_id = Convert.ToInt32( tile.Attributes["sp"].Value );
                         int sprite_x = Convert.ToInt32( tile.Attributes["x"].Value );
                         int sprite_y = Convert.ToInt32( tile.Attributes["y"].Value );
-
-                        CSprite new_tile = new CSprite();
-                        foreach (CSprite sp in m_sprite)
+                        
+                        foreach( CSprite sprite in m_sprite )
                         {
-                            if (sp.Id == sprite_id)
+                            if( sprite.Id == sprite_id )
                             {
-                                new_tile = sp;
-                                new_tile.Location = new System.Drawing.Point(sprite_x, sprite_y);
+                                foreach (CSprite ctile in m_tile[layer])
+                                {
+                                    if (ctile.Location == new System.Drawing.Point(sprite_x, sprite_y))
+                                    {
+                                        ctile.Replace( sprite );
+                                    }
+                                }
                             }
                         }
-
-                        m_tile[layer].Add(new_tile);
                     }
                 }
             }
