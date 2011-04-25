@@ -29,6 +29,9 @@ namespace Tilly2D
         private List<CSprite> m_base_layer = new List<CSprite>();
         private CXml m_xml = new CXml();
 
+        private List<int> m_layer_type = new List<int>();
+        private List<String> m_layer_name = new List<string>();
+
         public MainForm()
         {
             InitializeComponent();
@@ -68,6 +71,8 @@ namespace Tilly2D
 
             for (int i = 0; i < m_max_layers; i++)
             {
+                m_layer_name.Add(layerCheckBox.Items[i].ToString());
+                m_layer_type.Add(2);
                 m_tile.Add(new List<CSprite>());
                 toolStripProgressBar.Value += 1;
             }
@@ -116,6 +121,8 @@ namespace Tilly2D
 
             toolStripProgressBar.Value += 10;
 
+            m_base_layer.Clear();
+
             for (int l = 1; l < m_max_layers; l++)
             {
                 m_tile[l].Clear();
@@ -143,6 +150,7 @@ namespace Tilly2D
             tile_count_x = tile_count_x > m_grid_size ? m_grid_size : tile_count_x;
             tile_count_y = tile_count_y > m_grid_size ? m_grid_size : tile_count_y;
 
+            //draw base tiles
             int i = (start_y * m_grid_size) + start_x;
             for (int y = 0; y < tile_count_y; y++)
             {
@@ -157,6 +165,7 @@ namespace Tilly2D
                 i += m_grid_size - tile_count_x;
             }
 
+            //draw users tiles
             for (int l = 0; l < m_max_layers; l++)
             {
                 if (layerCheckBox.GetItemChecked(l))
@@ -211,6 +220,15 @@ namespace Tilly2D
                         }
                     }
                 }
+                int c = 0;
+                for (int y = 0; y < m_grid_size; y++)
+                {
+                    for (int x = 0; x < m_grid_size; x++)
+                    {
+                        m_base_layer[c].Location = new Point(m_base_layer[c].Location.X, m_base_layer[c].Location.Y - change);
+                        c++;
+                    }
+                }
             }
 
             start_y += change;
@@ -232,6 +250,15 @@ namespace Tilly2D
                             m_tile[l][i].Location = new Point(m_tile[l][i].Location.X - change, m_tile[l][i].Location.Y);
                             i++;
                         }
+                    }
+                }
+                int c = 0;
+                for (int y = 0; y < m_grid_size; y++)
+                {
+                    for (int x = 0; x < m_grid_size; x++)
+                    {
+                        m_base_layer[c].Location = new Point(m_base_layer[c].Location.X - change, m_base_layer[c].Location.Y);
+                        c++;
                     }
                 }
                 start_x += change;
@@ -316,7 +343,12 @@ namespace Tilly2D
             int selected = ((CheckedListBox)sender).SelectedIndex;
             Tile.ActiveLayer = selected;
 
-            textBoxLayerName.Text = ((CheckedListBox)sender).Text;
+            layerCheckBox.SetItemChecked(selected, !layerCheckBox.GetItemChecked(selected));
+            textBoxLayerName.Text = layerCheckBox.Items[selected].ToString();
+            
+ 
+            if (m_layer_type.Count > 0)
+                comboBoxLayerType.SelectedIndex = m_layer_type[selected];
         }
 
         private void CreateNewMap(bool destroy)
@@ -324,12 +356,15 @@ namespace Tilly2D
             NewMapForm form = new NewMapForm();
             form.ShowDialog();
 
-            m_grid_size = form.MapSize;
-            if(destroy) DestoryManagedResources();
-            CreateManagedResources();
+            if (form.CreateNewMap || !destroy)
+            {
+                m_grid_size = form.MapSize;
+                if (destroy) DestoryManagedResources();
+                CreateManagedResources();
 
-            layerCheckBox.SelectedIndex = 0;
-            Tile.ActiveLayer = 0;
+                layerCheckBox.SelectedIndex = 0;
+                Tile.ActiveLayer = 0;
+            }
         }
 
         private void NewMap(object sender, EventArgs e)
@@ -349,7 +384,7 @@ namespace Tilly2D
                 m_xml.prepareMap(OpenMapFileDialog.FileName, ref m_grid_size);
                 DestoryManagedResources();
                 CreateManagedResources();
-                m_xml.LoadMap(OpenMapFileDialog.FileName, m_tile, m_sprite, ref layerCheckBox);
+                m_xml.LoadMap(OpenMapFileDialog.FileName, m_tile, m_sprite, ref layerCheckBox, ref m_layer_type);
                 textBoxLayerName.Text = layerCheckBox.SelectedItem.ToString();
             }
         }
@@ -358,13 +393,30 @@ namespace Tilly2D
         {
             if (saveMapFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                m_xml.saveMap(saveMapFileDialog.FileName, m_tile, m_sprite, m_grid_size, layerCheckBox);
+                m_xml.saveMap(saveMapFileDialog.FileName, m_tile, m_sprite, m_grid_size, layerCheckBox, m_layer_type);
             }
         }
 
         private void Layer_Name_Changed(object sender, EventArgs e)
         {
             layerCheckBox.Items[layerCheckBox.SelectedIndex] = textBoxLayerName.Text;
+        }
+
+        private void OnDrawLayerTypeChanged(object sender, EventArgs e)
+        {
+            m_layer_type[Tile.ActiveLayer] = comboBoxLayerType.SelectedIndex;
+        }
+
+        private void launchGameToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (saveMapFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                m_xml.saveMap(saveMapFileDialog.FileName, m_tile, m_sprite, m_grid_size, layerCheckBox, m_layer_type);
+
+                System.Diagnostics.ProcessStartInfo GameProcessInfo = new System.Diagnostics.ProcessStartInfo("GGame.exe");
+                GameProcessInfo.WorkingDirectory = System.IO.Directory.GetCurrentDirectory() + "\\Game\\";
+                System.Diagnostics.Process GameProcess = System.Diagnostics.Process.Start(GameProcessInfo);
+            }
         }
     }
 }
