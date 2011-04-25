@@ -131,9 +131,6 @@ namespace Tilly2D
 
         void Draw()
         {
-            //Somewhere in here is broken...
-            //scrolling is broke on multiple layers.
-
             if (m_tile.Count == 0) return;
 
             m_dev.Clear(ClearFlags.Target, Color.Black, 1.0f, 0);
@@ -183,15 +180,24 @@ namespace Tilly2D
 
         private void Vertical_Scroll(object sender, ScrollEventArgs e)
         {
+            //Somewhere in here is broken...
+            //scrolling is broke on multiple layers.
+
             int change = e.NewValue - e.OldValue;
 
-            int i = 0;
-            for (int y = 0; y < m_grid_size; y++)
+            if (change != 0)
             {
-                for (int x = 0; x < m_grid_size; x++)
+                for (int l = 0; l < m_max_layers; l++)
                 {
-                    m_tile[Tile.ActiveLayer][i].Location = new Point(m_tile[Tile.ActiveLayer][i].Location.X, m_tile[Tile.ActiveLayer][i].Location.Y - change);
-                    i++;
+                    int i = 0;
+                    for (int y = 0; y < m_grid_size; y++)
+                    {
+                        for (int x = 0; x < m_grid_size; x++)
+                        {
+                            m_tile[l][i].Location = new Point(m_tile[l][i].Location.X, m_tile[l][i].Location.Y - change);
+                            i++;
+                        }
+                    }
                 }
             }
 
@@ -204,16 +210,18 @@ namespace Tilly2D
 
             if (change != 0)
             {
-                int i = 0;
-                for (int y = 0; y < m_grid_size; y++)
+                for (int l = 0; l < m_max_layers; l++)
                 {
-                    for (int x = 0; x < m_grid_size; x++)
+                    int i = 0;
+                    for (int y = 0; y < m_grid_size; y++)
                     {
-                        m_tile[Tile.ActiveLayer][i].Location = new Point(m_tile[Tile.ActiveLayer][i].Location.X - change, m_tile[Tile.ActiveLayer][i].Location.Y);
-                        i++;
+                        for (int x = 0; x < m_grid_size; x++)
+                        {
+                            m_tile[l][i].Location = new Point(m_tile[l][i].Location.X - change, m_tile[l][i].Location.Y);
+                            i++;
+                        }
                     }
                 }
-
                 start_x += change;
             }
         }
