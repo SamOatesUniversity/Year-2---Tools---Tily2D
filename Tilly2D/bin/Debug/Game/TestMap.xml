@@ -5,7 +5,7 @@
   <Level id="1" name="level_name">
     <startposition x="210" y="210" />
     <MapList>
-      <map name="Ground Layer" z_depth="1" width="64" height="64" xsz="32" ysz="32" drawtype="2">
+      <map name="Layer One" z_depth="1" width="64" height="64" xsz="32" ysz="32" drawtype="2">
         <tile sp="10" x="0" y="0" />
         <tile sp="10" x="1" y="0" />
         <tile sp="10" x="2" y="0" />
@@ -21,6 +21,9 @@
         <tile sp="10" x="12" y="0" />
         <tile sp="10" x="13" y="0" />
         <tile sp="10" x="14" y="0" />
+        <tile sp="10" x="19" y="0" />
+        <tile sp="10" x="20" y="0" />
+        <tile sp="10" x="21" y="0" />
         <tile sp="10" x="22" y="0" />
         <tile sp="10" x="23" y="0" />
         <tile sp="10" x="24" y="0" />
@@ -31,9 +34,6 @@
         <tile sp="10" x="29" y="0" />
         <tile sp="10" x="30" y="0" />
         <tile sp="10" x="31" y="0" />
-        <tile sp="10" x="32" y="0" />
-        <tile sp="10" x="33" y="0" />
-        <tile sp="10" x="34" y="0" />
         <tile sp="10" x="0" y="1" />
         <tile sp="1" x="1" y="1" />
         <tile sp="1" x="2" y="1" />
@@ -49,7 +49,10 @@
         <tile sp="1" x="12" y="1" />
         <tile sp="1" x="13" y="1" />
         <tile sp="10" x="14" y="1" />
-        <tile sp="10" x="22" y="1" />
+        <tile sp="10" x="19" y="1" />
+        <tile sp="1" x="20" y="1" />
+        <tile sp="1" x="21" y="1" />
+        <tile sp="1" x="22" y="1" />
         <tile sp="1" x="23" y="1" />
         <tile sp="1" x="24" y="1" />
         <tile sp="1" x="25" y="1" />
@@ -58,10 +61,7 @@
         <tile sp="1" x="28" y="1" />
         <tile sp="1" x="29" y="1" />
         <tile sp="1" x="30" y="1" />
-        <tile sp="1" x="31" y="1" />
-        <tile sp="1" x="32" y="1" />
-        <tile sp="1" x="33" y="1" />
-        <tile sp="10" x="34" y="1" />
+        <tile sp="10" x="31" y="1" />
         <tile sp="10" x="0" y="2" />
         <tile sp="1" x="1" y="2" />
         <tile sp="1" x="2" y="2" />
@@ -77,7 +77,10 @@
         <tile sp="1" x="12" y="2" />
         <tile sp="1" x="13" y="2" />
         <tile sp="10" x="14" y="2" />
-        <tile sp="10" x="22" y="2" />
+        <tile sp="10" x="19" y="2" />
+        <tile sp="1" x="20" y="2" />
+        <tile sp="1" x="21" y="2" />
+        <tile sp="1" x="22" y="2" />
         <tile sp="1" x="23" y="2" />
         <tile sp="1" x="24" y="2" />
         <tile sp="1" x="25" y="2" />
@@ -86,10 +89,7 @@
         <tile sp="1" x="28" y="2" />
         <tile sp="1" x="29" y="2" />
         <tile sp="1" x="30" y="2" />
-        <tile sp="1" x="31" y="2" />
-        <tile sp="1" x="32" y="2" />
-        <tile sp="1" x="33" y="2" />
-        <tile sp="10" x="34" y="2" />
+        <tile sp="10" x="31" y="2" />
         <tile sp="10" x="0" y="3" />
         <tile sp="1" x="1" y="3" />
         <tile sp="1" x="2" y="3" />
@@ -105,7 +105,10 @@
         <tile sp="1" x="12" y="3" />
         <tile sp="1" x="13" y="3" />
         <tile sp="10" x="14" y="3" />
-        <tile sp="10" x="22" y="3" />
+        <tile sp="10" x="19" y="3" />
+        <tile sp="1" x="20" y="3" />
+        <tile sp="1" x="21" y="3" />
+        <tile sp="1" x="22" y="3" />
         <tile sp="1" x="23" y="3" />
         <tile sp="1" x="24" y="3" />
         <tile sp="1" x="25" y="3" />
@@ -114,10 +117,7 @@
         <tile sp="1" x="28" y="3" />
         <tile sp="1" x="29" y="3" />
         <tile sp="1" x="30" y="3" />
-        <tile sp="1" x="31" y="3" />
-        <tile sp="1" x="32" y="3" />
-        <tile sp="1" x="33" y="3" />
-        <tile sp="10" x="34" y="3" />
+        <tile sp="10" x="31" y="3" />
         <tile sp="10" x="0" y="4" />
         <tile sp="1" x="1" y="4" />
         <tile sp="1" x="2" y="4" />
@@ -138,9 +138,9 @@
         <tile sp="10" x="17" y="4" />
         <tile sp="10" x="18" y="4" />
         <tile sp="10" x="19" y="4" />
-        <tile sp="10" x="20" y="4" />
-        <tile sp="10" x="21" y="4" />
-        <tile sp="10" x="22" y="4" />
+        <tile sp="1" x="20" y="4" />
+        <tile sp="1" x="21" y="4" />
+        <tile sp="1" x="22" y="4" />
         <tile sp="1" x="23" y="4" />
         <tile sp="1" x="24" y="4" />
         <tile sp="1" x="25" y="4" />
@@ -149,10 +149,7 @@
         <tile sp="1" x="28" y="4" />
         <tile sp="1" x="29" y="4" />
         <tile sp="1" x="30" y="4" />
-        <tile sp="1" x="31" y="4" />
-        <tile sp="1" x="32" y="4" />
-        <tile sp="1" x="33" y="4" />
-        <tile sp="10" x="34" y="4" />
+        <tile sp="10" x="31" y="4" />
         <tile sp="10" x="0" y="5" />
         <tile sp="1" x="1" y="5" />
         <tile sp="1" x="2" y="5" />
@@ -184,10 +181,7 @@
         <tile sp="1" x="28" y="5" />
         <tile sp="1" x="29" y="5" />
         <tile sp="1" x="30" y="5" />
-        <tile sp="1" x="31" y="5" />
-        <tile sp="1" x="32" y="5" />
-        <tile sp="1" x="33" y="5" />
-        <tile sp="10" x="34" y="5" />
+        <tile sp="10" x="31" y="5" />
         <tile sp="10" x="0" y="6" />
         <tile sp="1" x="1" y="6" />
         <tile sp="1" x="2" y="6" />
@@ -219,10 +213,7 @@
         <tile sp="1" x="28" y="6" />
         <tile sp="1" x="29" y="6" />
         <tile sp="1" x="30" y="6" />
-        <tile sp="1" x="31" y="6" />
-        <tile sp="1" x="32" y="6" />
-        <tile sp="1" x="33" y="6" />
-        <tile sp="10" x="34" y="6" />
+        <tile sp="10" x="31" y="6" />
         <tile sp="10" x="0" y="7" />
         <tile sp="1" x="1" y="7" />
         <tile sp="1" x="2" y="7" />
@@ -254,10 +245,7 @@
         <tile sp="1" x="28" y="7" />
         <tile sp="1" x="29" y="7" />
         <tile sp="1" x="30" y="7" />
-        <tile sp="1" x="31" y="7" />
-        <tile sp="1" x="32" y="7" />
-        <tile sp="1" x="33" y="7" />
-        <tile sp="10" x="34" y="7" />
+        <tile sp="10" x="31" y="7" />
         <tile sp="10" x="0" y="8" />
         <tile sp="1" x="1" y="8" />
         <tile sp="1" x="2" y="8" />
@@ -272,15 +260,15 @@
         <tile sp="1" x="11" y="8" />
         <tile sp="1" x="12" y="8" />
         <tile sp="1" x="13" y="8" />
-        <tile sp="10" x="14" y="8" />
-        <tile sp="10" x="15" y="8" />
-        <tile sp="10" x="16" y="8" />
-        <tile sp="10" x="17" y="8" />
-        <tile sp="10" x="18" y="8" />
-        <tile sp="10" x="19" y="8" />
-        <tile sp="10" x="20" y="8" />
-        <tile sp="10" x="21" y="8" />
-        <tile sp="10" x="22" y="8" />
+        <tile sp="1" x="14" y="8" />
+        <tile sp="1" x="15" y="8" />
+        <tile sp="1" x="16" y="8" />
+        <tile sp="1" x="17" y="8" />
+        <tile sp="1" x="18" y="8" />
+        <tile sp="1" x="19" y="8" />
+        <tile sp="1" x="20" y="8" />
+        <tile sp="1" x="21" y="8" />
+        <tile sp="1" x="22" y="8" />
         <tile sp="1" x="23" y="8" />
         <tile sp="1" x="24" y="8" />
         <tile sp="1" x="25" y="8" />
@@ -289,10 +277,7 @@
         <tile sp="1" x="28" y="8" />
         <tile sp="1" x="29" y="8" />
         <tile sp="1" x="30" y="8" />
-        <tile sp="1" x="31" y="8" />
-        <tile sp="1" x="32" y="8" />
-        <tile sp="1" x="33" y="8" />
-        <tile sp="10" x="34" y="8" />
+        <tile sp="10" x="31" y="8" />
         <tile sp="10" x="0" y="9" />
         <tile sp="1" x="1" y="9" />
         <tile sp="1" x="2" y="9" />
@@ -308,7 +293,14 @@
         <tile sp="1" x="12" y="9" />
         <tile sp="1" x="13" y="9" />
         <tile sp="10" x="14" y="9" />
-        <tile sp="10" x="22" y="9" />
+        <tile sp="10" x="15" y="9" />
+        <tile sp="10" x="16" y="9" />
+        <tile sp="10" x="17" y="9" />
+        <tile sp="10" x="18" y="9" />
+        <tile sp="10" x="19" y="9" />
+        <tile sp="1" x="20" y="9" />
+        <tile sp="1" x="21" y="9" />
+        <tile sp="1" x="22" y="9" />
         <tile sp="1" x="23" y="9" />
         <tile sp="1" x="24" y="9" />
         <tile sp="1" x="25" y="9" />
@@ -317,10 +309,7 @@
         <tile sp="1" x="28" y="9" />
         <tile sp="1" x="29" y="9" />
         <tile sp="1" x="30" y="9" />
-        <tile sp="1" x="31" y="9" />
-        <tile sp="1" x="32" y="9" />
-        <tile sp="1" x="33" y="9" />
-        <tile sp="10" x="34" y="9" />
+        <tile sp="10" x="31" y="9" />
         <tile sp="10" x="0" y="10" />
         <tile sp="1" x="1" y="10" />
         <tile sp="1" x="2" y="10" />
@@ -336,7 +325,10 @@
         <tile sp="1" x="12" y="10" />
         <tile sp="1" x="13" y="10" />
         <tile sp="10" x="14" y="10" />
-        <tile sp="10" x="22" y="10" />
+        <tile sp="10" x="19" y="10" />
+        <tile sp="1" x="20" y="10" />
+        <tile sp="1" x="21" y="10" />
+        <tile sp="1" x="22" y="10" />
         <tile sp="1" x="23" y="10" />
         <tile sp="1" x="24" y="10" />
         <tile sp="1" x="25" y="10" />
@@ -345,10 +337,7 @@
         <tile sp="1" x="28" y="10" />
         <tile sp="1" x="29" y="10" />
         <tile sp="1" x="30" y="10" />
-        <tile sp="1" x="31" y="10" />
-        <tile sp="1" x="32" y="10" />
-        <tile sp="1" x="33" y="10" />
-        <tile sp="10" x="34" y="10" />
+        <tile sp="10" x="31" y="10" />
         <tile sp="10" x="0" y="11" />
         <tile sp="1" x="1" y="11" />
         <tile sp="1" x="2" y="11" />
@@ -364,7 +353,10 @@
         <tile sp="1" x="12" y="11" />
         <tile sp="1" x="13" y="11" />
         <tile sp="10" x="14" y="11" />
-        <tile sp="10" x="22" y="11" />
+        <tile sp="10" x="19" y="11" />
+        <tile sp="1" x="20" y="11" />
+        <tile sp="1" x="21" y="11" />
+        <tile sp="1" x="22" y="11" />
         <tile sp="1" x="23" y="11" />
         <tile sp="1" x="24" y="11" />
         <tile sp="1" x="25" y="11" />
@@ -373,54 +365,83 @@
         <tile sp="1" x="28" y="11" />
         <tile sp="1" x="29" y="11" />
         <tile sp="1" x="30" y="11" />
-        <tile sp="1" x="31" y="11" />
-        <tile sp="1" x="32" y="11" />
-        <tile sp="1" x="33" y="11" />
-        <tile sp="10" x="34" y="11" />
+        <tile sp="10" x="31" y="11" />
         <tile sp="10" x="0" y="12" />
-        <tile sp="10" x="1" y="12" />
-        <tile sp="10" x="2" y="12" />
-        <tile sp="10" x="3" y="12" />
-        <tile sp="10" x="4" y="12" />
-        <tile sp="10" x="5" y="12" />
-        <tile sp="10" x="6" y="12" />
-        <tile sp="10" x="7" y="12" />
-        <tile sp="10" x="8" y="12" />
-        <tile sp="10" x="9" y="12" />
-        <tile sp="10" x="10" y="12" />
-        <tile sp="10" x="11" y="12" />
-        <tile sp="10" x="12" y="12" />
-        <tile sp="10" x="13" y="12" />
+        <tile sp="1" x="1" y="12" />
+        <tile sp="1" x="2" y="12" />
+        <tile sp="1" x="3" y="12" />
+        <tile sp="1" x="4" y="12" />
+        <tile sp="1" x="5" y="12" />
+        <tile sp="1" x="6" y="12" />
+        <tile sp="1" x="7" y="12" />
+        <tile sp="1" x="8" y="12" />
+        <tile sp="1" x="9" y="12" />
+        <tile sp="1" x="10" y="12" />
+        <tile sp="1" x="11" y="12" />
+        <tile sp="1" x="12" y="12" />
+        <tile sp="1" x="13" y="12" />
         <tile sp="10" x="14" y="12" />
-        <tile sp="10" x="22" y="12" />
-        <tile sp="10" x="23" y="12" />
-        <tile sp="10" x="24" y="12" />
-        <tile sp="10" x="25" y="12" />
-        <tile sp="10" x="26" y="12" />
-        <tile sp="10" x="27" y="12" />
-        <tile sp="10" x="28" y="12" />
-        <tile sp="10" x="29" y="12" />
-        <tile sp="10" x="30" y="12" />
+        <tile sp="10" x="19" y="12" />
+        <tile sp="1" x="20" y="12" />
+        <tile sp="1" x="21" y="12" />
+        <tile sp="1" x="22" y="12" />
+        <tile sp="1" x="23" y="12" />
+        <tile sp="1" x="24" y="12" />
+        <tile sp="1" x="25" y="12" />
+        <tile sp="1" x="26" y="12" />
+        <tile sp="1" x="27" y="12" />
+        <tile sp="1" x="28" y="12" />
+        <tile sp="1" x="29" y="12" />
+        <tile sp="1" x="30" y="12" />
         <tile sp="10" x="31" y="12" />
-        <tile sp="10" x="32" y="12" />
-        <tile sp="10" x="33" y="12" />
-        <tile sp="10" x="34" y="12" />
+        <tile sp="10" x="0" y="13" />
+        <tile sp="10" x="1" y="13" />
+        <tile sp="10" x="2" y="13" />
+        <tile sp="10" x="3" y="13" />
+        <tile sp="10" x="4" y="13" />
+        <tile sp="10" x="5" y="13" />
+        <tile sp="10" x="6" y="13" />
+        <tile sp="10" x="7" y="13" />
+        <tile sp="10" x="8" y="13" />
+        <tile sp="10" x="9" y="13" />
+        <tile sp="10" x="10" y="13" />
+        <tile sp="10" x="11" y="13" />
+        <tile sp="10" x="12" y="13" />
+        <tile sp="10" x="13" y="13" />
+        <tile sp="10" x="14" y="13" />
+        <tile sp="10" x="19" y="13" />
+        <tile sp="10" x="20" y="13" />
+        <tile sp="10" x="21" y="13" />
+        <tile sp="10" x="22" y="13" />
+        <tile sp="10" x="23" y="13" />
+        <tile sp="10" x="24" y="13" />
+        <tile sp="10" x="25" y="13" />
+        <tile sp="10" x="26" y="13" />
+        <tile sp="10" x="27" y="13" />
+        <tile sp="10" x="28" y="13" />
+        <tile sp="10" x="29" y="13" />
+        <tile sp="10" x="30" y="13" />
+        <tile sp="10" x="31" y="13" />
       </map>
-      <map name="Item Layer" z_depth="2" width="64" height="64" xsz="32" ysz="32" drawtype="3">
-        <tile sp="62" x="14" y="5" />
-        <tile sp="62" x="16" y="5" />
-        <tile sp="75" x="17" y="5" />
-        <tile sp="62" x="20" y="5" />
-        <tile sp="62" x="22" y="5" />
-        <tile sp="61" x="16" y="6" />
-        <tile sp="61" x="17" y="6" />
-        <tile sp="60" x="21" y="6" />
-        <tile sp="60" x="22" y="6" />
-        <tile sp="61" x="14" y="7" />
-        <tile sp="61" x="19" y="7" />
+      <map name="Objects" z_depth="2" width="64" height="64" xsz="32" ysz="32" drawtype="3">
+        <tile sp="71" x="15" y="5" />
+        <tile sp="72" x="19" y="7" />
+        <tile sp="77" x="17" y="8" />
       </map>
-      <map name="Exit Layer" z_depth="3" width="64" height="64" xsz="32" ysz="32" drawtype="2">
-        <tile sp="45" x="31" y="2" />
+      <map name="Traps" z_depth="3" width="64" height="64" xsz="32" ysz="32" drawtype="2">
+        <tile sp="60" x="14" y="5" />
+        <tile sp="60" x="17" y="5" />
+        <tile sp="60" x="18" y="5" />
+        <tile sp="60" x="19" y="5" />
+        <tile sp="60" x="14" y="6" />
+        <tile sp="60" x="15" y="6" />
+        <tile sp="60" x="17" y="7" />
+        <tile sp="60" x="18" y="7" />
+        <tile sp="60" x="20" y="7" />
+        <tile sp="60" x="15" y="8" />
+        <tile sp="60" x="16" y="8" />
+        <tile sp="60" x="18" y="8" />
+        <tile sp="60" x="19" y="8" />
       </map>
       <map name="Layer Four" z_depth="4" width="64" height="64" xsz="32" ysz="32" drawtype="2" />
       <map name="Layer Five" z_depth="5" width="64" height="64" xsz="32" ysz="32" drawtype="2" />
@@ -428,7 +449,9 @@
       <map name="Layer Seven" z_depth="7" width="64" height="64" xsz="32" ysz="32" drawtype="2" />
       <map name="Layer Eight" z_depth="8" width="64" height="64" xsz="32" ysz="32" drawtype="2" />
       <map name="Layer Nine" z_depth="9" width="64" height="64" xsz="32" ysz="32" drawtype="2" />
-      <map name="Layer Ten" z_depth="10" width="64" height="64" xsz="32" ysz="32" drawtype="2" />
+      <map name="Exit" z_depth="10" width="64" height="64" xsz="32" ysz="32" drawtype="2">
+        <tile sp="45" x="27" y="2" />
+      </map>
     </MapList>
   </Level>
 </Game>

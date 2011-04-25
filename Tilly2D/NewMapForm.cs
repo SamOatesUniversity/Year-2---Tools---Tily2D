@@ -11,14 +11,18 @@ namespace Tilly2D
 {
     public partial class NewMapForm : Form
     {
+        private bool m_create_map = false;
+
         public NewMapForm()
         {
             Application.EnableVisualStyles();
             InitializeComponent();
+            m_create_map = false;
         }
 
         private void CreateMap(object sender, EventArgs e)
         {
+            m_create_map = true;
             this.Close();
         }
 
@@ -30,6 +34,11 @@ namespace Tilly2D
         public String MapName
         {
             get { return mapName.Text; }
+        }
+
+        public bool CreateNewMap
+        {
+            get { return m_create_map; }
         }
     }
 }

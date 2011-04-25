@@ -22,7 +22,7 @@ namespace Tilly2D
 
         List<CButtonContainer> m_button_list = new List<CButtonContainer>();
 
-        public void saveMap(string location, List<List<CSprite>> m_tile, List<CSprite> m_sprite, int grid_size, CheckedListBox layers_checkbox)
+        public void saveMap(string location, List<List<CSprite>> m_tile, List<CSprite> m_sprite, int grid_size, CheckedListBox layers_checkbox, List<int> layer_type)
         {
             XmlDocument doc = new XmlDocument();
 
@@ -103,7 +103,7 @@ namespace Tilly2D
                 Map.Attributes.Append(MapYsz);
 
                 XmlAttribute DrawType = doc.CreateAttribute("drawtype");
-                DrawType.Value = "2";
+                DrawType.Value = layer_type[layerCount].ToString();
                 Map.Attributes.Append(DrawType);
 
                 foreach (CSprite sprite in layer)
@@ -145,7 +145,7 @@ namespace Tilly2D
             grid_size = Convert.ToInt32(area.Attributes["TripWndX"].Value);
         }
 
-        public void LoadMap(String file_location, List<List<CSprite>> m_tile, List<CSprite> m_sprite, ref CheckedListBox layers_checkbox)
+        public void LoadMap(String file_location, List<List<CSprite>> m_tile, List<CSprite> m_sprite, ref CheckedListBox layers_checkbox, ref List<int> layer_draw_type)
         {
             //resize, replace with new sprite.
 
@@ -161,6 +161,14 @@ namespace Tilly2D
             {
                 int layer = Convert.ToInt32(map.Attributes["z_depth"].Value) - 1;
                 layers_checkbox.Items[layer] = map.Attributes["name"].Value;
+                try
+                {
+                    layer_draw_type[layer] = Convert.ToInt32(map.Attributes["drawtype"].Value);
+                }
+                catch
+                {
+                    layer_draw_type[layer] = 0;
+                }
                 foreach (XmlNode tile in map.ChildNodes)
                 {
                     if (tile.Name == "tile")

@@ -45,6 +45,8 @@
             this.drawTimer = new System.Windows.Forms.Timer(this.components);
             this.tileTab = new System.Windows.Forms.TabControl();
             this.tileDetails = new System.Windows.Forms.GroupBox();
+            this.labelTileDetailsBlocking = new System.Windows.Forms.Label();
+            this.labelTileDetailsType = new System.Windows.Forms.Label();
             this.label_tile_details_tab = new System.Windows.Forms.Label();
             this.label_tile_details_position = new System.Windows.Forms.Label();
             this.label_tile_details_id = new System.Windows.Forms.Label();
@@ -59,13 +61,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxLayerName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLayerType = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelTileBlocking = new System.Windows.Forms.Label();
             this.labelTileType = new System.Windows.Forms.Label();
             this.pictureBox_SelectedTile = new System.Windows.Forms.PictureBox();
-            this.labelTileDetailsType = new System.Windows.Forms.Label();
-            this.labelTileBlocking = new System.Windows.Forms.Label();
-            this.labelTileDetailsBlocking = new System.Windows.Forms.Label();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.launchGameToolStripButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.draw_panel)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -134,7 +136,9 @@
             this.openToolStripButton,
             this.saveToolStripButton,
             this.toolStripSeparator,
-            this.helpToolStripButton});
+            this.helpToolStripButton,
+            this.toolStripSeparator1,
+            this.launchGameToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(838, 25);
@@ -217,6 +221,24 @@
             this.tileDetails.TabIndex = 4;
             this.tileDetails.TabStop = false;
             this.tileDetails.Text = "Tile Details";
+            // 
+            // labelTileDetailsBlocking
+            // 
+            this.labelTileDetailsBlocking.AutoSize = true;
+            this.labelTileDetailsBlocking.Location = new System.Drawing.Point(6, 96);
+            this.labelTileDetailsBlocking.Name = "labelTileDetailsBlocking";
+            this.labelTileDetailsBlocking.Size = new System.Drawing.Size(62, 13);
+            this.labelTileDetailsBlocking.TabIndex = 5;
+            this.labelTileDetailsBlocking.Text = "blocking : --";
+            // 
+            // labelTileDetailsType
+            // 
+            this.labelTileDetailsType.AutoSize = true;
+            this.labelTileDetailsType.Location = new System.Drawing.Point(6, 74);
+            this.labelTileDetailsType.Name = "labelTileDetailsType";
+            this.labelTileDetailsType.Size = new System.Drawing.Size(42, 13);
+            this.labelTileDetailsType.TabIndex = 4;
+            this.labelTileDetailsType.Text = "type : --";
             // 
             // label_tile_details_tab
             // 
@@ -353,19 +375,20 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Layer Draw Type";
             // 
-            // comboBox1
+            // comboBoxLayerType
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxLayerType.FormattingEnabled = true;
+            this.comboBoxLayerType.Items.AddRange(new object[] {
             "Empty",
             "Fill",
             "Copy",
             "Transparent"});
-            this.comboBox1.Location = new System.Drawing.Point(12, 375);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(140, 21);
-            this.comboBox1.TabIndex = 13;
-            this.comboBox1.Text = "Copy";
+            this.comboBoxLayerType.Location = new System.Drawing.Point(12, 375);
+            this.comboBoxLayerType.Name = "comboBoxLayerType";
+            this.comboBoxLayerType.Size = new System.Drawing.Size(140, 21);
+            this.comboBoxLayerType.TabIndex = 13;
+            this.comboBoxLayerType.Text = "Copy";
+            this.comboBoxLayerType.SelectedIndexChanged += new System.EventHandler(this.OnDrawLayerTypeChanged);
             // 
             // groupBox1
             // 
@@ -379,6 +402,15 @@
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Tile Properties";
+            // 
+            // labelTileBlocking
+            // 
+            this.labelTileBlocking.AutoSize = true;
+            this.labelTileBlocking.Location = new System.Drawing.Point(44, 38);
+            this.labelTileBlocking.Name = "labelTileBlocking";
+            this.labelTileBlocking.Size = new System.Drawing.Size(78, 13);
+            this.labelTileBlocking.TabIndex = 2;
+            this.labelTileBlocking.Text = "blocking : false";
             // 
             // labelTileType
             // 
@@ -397,32 +429,20 @@
             this.pictureBox_SelectedTile.TabIndex = 0;
             this.pictureBox_SelectedTile.TabStop = false;
             // 
-            // labelTileDetailsType
+            // toolStripSeparator1
             // 
-            this.labelTileDetailsType.AutoSize = true;
-            this.labelTileDetailsType.Location = new System.Drawing.Point(6, 74);
-            this.labelTileDetailsType.Name = "labelTileDetailsType";
-            this.labelTileDetailsType.Size = new System.Drawing.Size(42, 13);
-            this.labelTileDetailsType.TabIndex = 4;
-            this.labelTileDetailsType.Text = "type : --";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // labelTileBlocking
+            // launchGameToolStripButton
             // 
-            this.labelTileBlocking.AutoSize = true;
-            this.labelTileBlocking.Location = new System.Drawing.Point(44, 38);
-            this.labelTileBlocking.Name = "labelTileBlocking";
-            this.labelTileBlocking.Size = new System.Drawing.Size(78, 13);
-            this.labelTileBlocking.TabIndex = 2;
-            this.labelTileBlocking.Text = "blocking : false";
-            // 
-            // labelTileDetailsBlocking
-            // 
-            this.labelTileDetailsBlocking.AutoSize = true;
-            this.labelTileDetailsBlocking.Location = new System.Drawing.Point(6, 96);
-            this.labelTileDetailsBlocking.Name = "labelTileDetailsBlocking";
-            this.labelTileDetailsBlocking.Size = new System.Drawing.Size(62, 13);
-            this.labelTileDetailsBlocking.TabIndex = 5;
-            this.labelTileDetailsBlocking.Text = "blocking : --";
+            this.launchGameToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.launchGameToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("launchGameToolStripButton.Image")));
+            this.launchGameToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.launchGameToolStripButton.Name = "launchGameToolStripButton";
+            this.launchGameToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.launchGameToolStripButton.Text = "Launch Game";
+            this.launchGameToolStripButton.Click += new System.EventHandler(this.launchGameToolStripButton_Click);
             // 
             // MainForm
             // 
@@ -430,7 +450,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 500);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxLayerType);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBoxLayerName);
             this.Controls.Add(this.label2);
@@ -444,10 +464,12 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.draw_panel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(854, 538);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tilly2D";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Resize += new System.EventHandler(this.OnResize);
             ((System.ComponentModel.ISupportInitialize)(this.draw_panel)).EndInit();
             this.statusStrip1.ResumeLayout(false);
@@ -497,13 +519,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxLayerName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxLayerType;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox pictureBox_SelectedTile;
         private System.Windows.Forms.Label labelTileType;
         private System.Windows.Forms.Label labelTileDetailsType;
         private System.Windows.Forms.Label labelTileBlocking;
         private System.Windows.Forms.Label labelTileDetailsBlocking;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton launchGameToolStripButton;
     }
 }
 
