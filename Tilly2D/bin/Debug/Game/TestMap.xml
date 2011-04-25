@@ -406,10 +406,10 @@
         <tile sp="10" x="33" y="12" />
         <tile sp="10" x="34" y="12" />
       </map>
-      <map name="Item Layer" z_depth="2" width="64" height="64" xsz="32" ysz="32" drawtype="2">
+      <map name="Item Layer" z_depth="2" width="64" height="64" xsz="32" ysz="32" drawtype="3">
         <tile sp="62" x="14" y="5" />
         <tile sp="62" x="16" y="5" />
-        <tile sp="77" x="17" y="5" />
+        <tile sp="75" x="17" y="5" />
         <tile sp="62" x="20" y="5" />
         <tile sp="62" x="22" y="5" />
         <tile sp="61" x="16" y="6" />
