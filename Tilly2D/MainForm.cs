@@ -54,7 +54,7 @@ namespace Tilly2D
 
         void DeviceLost(object sender, EventArgs e)
         {
-
+            
         }
 
         public void CreateManagedResources()
@@ -131,6 +131,9 @@ namespace Tilly2D
 
         void Draw()
         {
+            //Somewhere in here is broken...
+            //scrolling is broke on multiple layers.
+
             if (m_tile.Count == 0) return;
 
             m_dev.Clear(ClearFlags.Target, Color.Black, 1.0f, 0);
@@ -169,6 +172,13 @@ namespace Tilly2D
         private void drawTimer_Tick(object sender, EventArgs e)
         {
             Draw();
+
+            string[] type = {"none", "pickup", "change", "power-up", "mob-generator", "replace", "exit", "teleport"};
+            labelTileType.Text = "type : " + type[m_sprite[Tile.Active].Type];
+
+            labelTileBlocking.Text = m_sprite[Tile.Active].Blocking ? "blocking : true" : "blocking : false";
+
+            pictureBox_SelectedTile.Image = m_sprite[Tile.Active].Bitmap;
         }
 
         private void Vertical_Scroll(object sender, ScrollEventArgs e)
@@ -261,6 +271,11 @@ namespace Tilly2D
                 tab = m_tile[Tile.ActiveLayer][id].FileName.Substring(0, m_tile[Tile.ActiveLayer][id].FileName.LastIndexOf(".") > 0 ? m_tile[Tile.ActiveLayer][id].FileName.LastIndexOf(".") : m_tile[Tile.ActiveLayer][id].FileName.Length);
 
             label_tile_details_tab.Text = "tab : " + tab;
+
+            string[] type = { "none", "pickup", "change", "power-up", "mob-generator", "replace", "exit", "teleport" };
+            labelTileDetailsType.Text = "type : " + type[m_tile[Tile.ActiveLayer][id].Type];
+
+            labelTileDetailsBlocking.Text = m_tile[Tile.ActiveLayer][id].Blocking ? "blocking : true" : "blocking : false";
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -280,6 +295,8 @@ namespace Tilly2D
         {
             int selected = ((CheckedListBox)sender).SelectedIndex;
             Tile.ActiveLayer = selected;
+
+            textBoxLayerName.Text = ((CheckedListBox)sender).Text;
         }
 
         private void CreateNewMap(bool destroy)
@@ -290,6 +307,9 @@ namespace Tilly2D
             m_grid_size = form.MapSize;
             if(destroy) DestoryManagedResources();
             CreateManagedResources();
+
+            layerCheckBox.SelectedIndex = 0;
+            Tile.ActiveLayer = 0;
         }
 
         private void NewMap(object sender, EventArgs e)
@@ -306,8 +326,25 @@ namespace Tilly2D
         {
             if (OpenMapFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                m_xml.LoadMap(OpenMapFileDialog.FileName, m_tile, m_sprite);
+                m_xml.prepareMap(OpenMapFileDialog.FileName, ref m_grid_size);
+                DestoryManagedResources();
+                CreateManagedResources();
+                m_xml.LoadMap(OpenMapFileDialog.FileName, m_tile, m_sprite, ref layerCheckBox);
+                textBoxLayerName.Text = layerCheckBox.SelectedItem.ToString();
             }
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (saveMapFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                m_xml.saveMap(saveMapFileDialog.FileName, m_tile, m_sprite, m_grid_size, layerCheckBox);
+            }
+        }
+
+        private void Layer_Name_Changed(object sender, EventArgs e)
+        {
+            layerCheckBox.Items[layerCheckBox.SelectedIndex] = textBoxLayerName.Text;
         }
     }
 }

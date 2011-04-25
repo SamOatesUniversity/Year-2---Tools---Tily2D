@@ -21,6 +21,9 @@ namespace Tilly2D
         private Point m_location;
         private String m_file_name;
 
+        private int m_type = 0;
+        private bool m_blocking = false;
+
         private Bitmap m_image;
         private XmlNode m_sprite_node;
 
@@ -55,15 +58,39 @@ namespace Tilly2D
 
             m_location = new Point();
 
+            try
+            {
+                m_type = Convert.ToInt32(sprite.Attributes["type"].Value);
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                m_blocking = Convert.ToBoolean(sprite.Attributes["block"].Value);
+            }
+            catch
+            {
+
+            }
+
             Rectangle destRect = new Rectangle(0, 0, 32, 32);  
             m_image = new System.Drawing.Bitmap(32, 32);
             Bitmap full_image = new Bitmap("Game\\" + m_file_name);
             Graphics gfx = Graphics.FromImage(m_image);
             gfx.DrawImage(full_image, destRect, m_source, GraphicsUnit.Pixel);
+            
+            //adds transparency, but means its an unmanaged resource...
+            //therfor when device is lost, they need to be recreated.
+            //add later.
 
-            m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name,
-                full_image.Width, full_image.Height, 1, Usage.None, Format.Unknown, Pool.Default,
-                Filter.None, Filter.None, Color.Black.ToArgb());
+            //m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name,
+            //    full_image.Width, full_image.Height, 1, Usage.None, Format.Unknown, Pool.Default,
+            //    Filter.None, Filter.None, Color.Black.ToArgb());
+
+            m_file_texture = TextureLoader.FromFile(dev, "Game\\" + m_file_name);
 
         }
 
@@ -111,7 +138,7 @@ namespace Tilly2D
             {
                 sprite.Begin(SpriteFlags.AlphaBlend);
                 sprite.Draw2D(m_file_texture, m_source, new Rectangle(0, 0, grid_size, grid_size), new Point((int)((float)m_location.X * ((float)grid_size / ((float)grid_size / (float)m_source.Width))),
-                                                                                                              (int)(float)(m_location.Y * ((float)grid_size / ((float)grid_size / (float)m_source.Height)))), Color.White);
+                                                                                                                (int)(float)(m_location.Y * ((float)grid_size / ((float)grid_size / (float)m_source.Height)))), Color.White);
                 sprite.End();
             }
         }
@@ -127,6 +154,9 @@ namespace Tilly2D
             m_source = sprite.Source;
             m_image = sprite.Bitmap;
             m_file_name = sprite.FileName;
+            m_id = sprite.Id;
+            m_type = sprite.Type;
+            m_blocking = sprite.Blocking;
         }
 
         public Rectangle Source
@@ -177,6 +207,16 @@ namespace Tilly2D
                 return true;
 
             return false;
+        }
+
+        public int Type
+        {
+            get { return m_type; }
+        }
+
+        public bool Blocking
+        {
+            get { return m_blocking; }
         }
     }
 }

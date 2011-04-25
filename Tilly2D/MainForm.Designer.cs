@@ -55,12 +55,25 @@
             this.zoomBar = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.OpenMapFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveMapFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxLayerName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelTileType = new System.Windows.Forms.Label();
+            this.pictureBox_SelectedTile = new System.Windows.Forms.PictureBox();
+            this.labelTileDetailsType = new System.Windows.Forms.Label();
+            this.labelTileBlocking = new System.Windows.Forms.Label();
+            this.labelTileDetailsBlocking = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.draw_panel)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tileDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TileDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zoomBar)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SelectedTile)).BeginInit();
             this.SuspendLayout();
             // 
             // draw_panel
@@ -156,6 +169,7 @@
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // toolStripSeparator
             // 
@@ -186,18 +200,20 @@
             this.tileTab.Multiline = true;
             this.tileTab.Name = "tileTab";
             this.tileTab.SelectedIndex = 0;
-            this.tileTab.Size = new System.Drawing.Size(188, 383);
+            this.tileTab.Size = new System.Drawing.Size(188, 278);
             this.tileTab.TabIndex = 3;
             // 
             // tileDetails
             // 
+            this.tileDetails.Controls.Add(this.labelTileDetailsBlocking);
+            this.tileDetails.Controls.Add(this.labelTileDetailsType);
             this.tileDetails.Controls.Add(this.label_tile_details_tab);
             this.tileDetails.Controls.Add(this.label_tile_details_position);
             this.tileDetails.Controls.Add(this.label_tile_details_id);
             this.tileDetails.Controls.Add(this.pictureBox_TileDetails);
             this.tileDetails.Location = new System.Drawing.Point(12, 28);
             this.tileDetails.Name = "tileDetails";
-            this.tileDetails.Size = new System.Drawing.Size(140, 145);
+            this.tileDetails.Size = new System.Drawing.Size(140, 122);
             this.tileDetails.TabIndex = 4;
             this.tileDetails.TabStop = false;
             this.tileDetails.Text = "Tile Details";
@@ -252,7 +268,7 @@
             "Layer Eight",
             "Layer Nine",
             "Layer Ten"});
-            this.layerCheckBox.Location = new System.Drawing.Point(12, 180);
+            this.layerCheckBox.Location = new System.Drawing.Point(12, 156);
             this.layerCheckBox.Name = "layerCheckBox";
             this.layerCheckBox.Size = new System.Drawing.Size(140, 152);
             this.layerCheckBox.TabIndex = 5;
@@ -305,11 +321,119 @@
             this.OpenMapFileDialog.Filter = "Xml files|*.xml";
             this.OpenMapFileDialog.Title = "Open map xml file";
             // 
+            // saveMapFileDialog
+            // 
+            this.saveMapFileDialog.Filter = "Xml Files|*.xml";
+            this.saveMapFileDialog.Title = "Save map";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 311);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Layer Name";
+            // 
+            // textBoxLayerName
+            // 
+            this.textBoxLayerName.Location = new System.Drawing.Point(12, 327);
+            this.textBoxLayerName.Name = "textBoxLayerName";
+            this.textBoxLayerName.Size = new System.Drawing.Size(140, 20);
+            this.textBoxLayerName.TabIndex = 11;
+            this.textBoxLayerName.Text = "Layer One";
+            this.textBoxLayerName.TextChanged += new System.EventHandler(this.Layer_Name_Changed);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 359);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Layer Draw Type";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Empty",
+            "Fill",
+            "Copy",
+            "Transparent"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 375);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(140, 21);
+            this.comboBox1.TabIndex = 13;
+            this.comboBox1.Text = "Copy";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.labelTileBlocking);
+            this.groupBox1.Controls.Add(this.labelTileType);
+            this.groupBox1.Controls.Add(this.pictureBox_SelectedTile);
+            this.groupBox1.Location = new System.Drawing.Point(643, 311);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(188, 100);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Selected Tile Properties";
+            // 
+            // labelTileType
+            // 
+            this.labelTileType.AutoSize = true;
+            this.labelTileType.Location = new System.Drawing.Point(44, 19);
+            this.labelTileType.Name = "labelTileType";
+            this.labelTileType.Size = new System.Drawing.Size(60, 13);
+            this.labelTileType.TabIndex = 1;
+            this.labelTileType.Text = "type : none";
+            // 
+            // pictureBox_SelectedTile
+            // 
+            this.pictureBox_SelectedTile.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox_SelectedTile.Name = "pictureBox_SelectedTile";
+            this.pictureBox_SelectedTile.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox_SelectedTile.TabIndex = 0;
+            this.pictureBox_SelectedTile.TabStop = false;
+            // 
+            // labelTileDetailsType
+            // 
+            this.labelTileDetailsType.AutoSize = true;
+            this.labelTileDetailsType.Location = new System.Drawing.Point(6, 74);
+            this.labelTileDetailsType.Name = "labelTileDetailsType";
+            this.labelTileDetailsType.Size = new System.Drawing.Size(42, 13);
+            this.labelTileDetailsType.TabIndex = 4;
+            this.labelTileDetailsType.Text = "type : --";
+            // 
+            // labelTileBlocking
+            // 
+            this.labelTileBlocking.AutoSize = true;
+            this.labelTileBlocking.Location = new System.Drawing.Point(44, 38);
+            this.labelTileBlocking.Name = "labelTileBlocking";
+            this.labelTileBlocking.Size = new System.Drawing.Size(78, 13);
+            this.labelTileBlocking.TabIndex = 2;
+            this.labelTileBlocking.Text = "blocking : false";
+            // 
+            // labelTileDetailsBlocking
+            // 
+            this.labelTileDetailsBlocking.AutoSize = true;
+            this.labelTileDetailsBlocking.Location = new System.Drawing.Point(6, 96);
+            this.labelTileDetailsBlocking.Name = "labelTileDetailsBlocking";
+            this.labelTileDetailsBlocking.Size = new System.Drawing.Size(62, 13);
+            this.labelTileDetailsBlocking.TabIndex = 5;
+            this.labelTileDetailsBlocking.Text = "blocking : --";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 500);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxLayerName);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.zoomBar);
             this.Controls.Add(this.hScrollBar);
@@ -334,6 +458,9 @@
             this.tileDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TileDetails)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zoomBar)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SelectedTile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,6 +493,17 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.OpenFileDialog OpenMapFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveMapFileDialog;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxLayerName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox pictureBox_SelectedTile;
+        private System.Windows.Forms.Label labelTileType;
+        private System.Windows.Forms.Label labelTileDetailsType;
+        private System.Windows.Forms.Label labelTileBlocking;
+        private System.Windows.Forms.Label labelTileDetailsBlocking;
     }
 }
 
