@@ -42,6 +42,11 @@
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.launchGameToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.pointToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.boxToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.drawTimer = new System.Windows.Forms.Timer(this.components);
             this.tileTab = new System.Windows.Forms.TabControl();
             this.tileDetails = new System.Windows.Forms.GroupBox();
@@ -66,8 +71,6 @@
             this.labelTileBlocking = new System.Windows.Forms.Label();
             this.labelTileType = new System.Windows.Forms.Label();
             this.pictureBox_SelectedTile = new System.Windows.Forms.PictureBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.launchGameToolStripButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.draw_panel)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -138,7 +141,10 @@
             this.toolStripSeparator,
             this.helpToolStripButton,
             this.toolStripSeparator1,
-            this.launchGameToolStripButton});
+            this.launchGameToolStripButton,
+            this.toolStripSeparator2,
+            this.pointToolStripButton,
+            this.boxToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(838, 25);
@@ -189,6 +195,48 @@
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
             this.helpToolStripButton.Click += new System.EventHandler(this.OnClickHealth);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // launchGameToolStripButton
+            // 
+            this.launchGameToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.launchGameToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("launchGameToolStripButton.Image")));
+            this.launchGameToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.launchGameToolStripButton.Name = "launchGameToolStripButton";
+            this.launchGameToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.launchGameToolStripButton.Text = "Launch Game";
+            this.launchGameToolStripButton.Click += new System.EventHandler(this.launchGameToolStripButton_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // pointToolStripButton
+            // 
+            this.pointToolStripButton.Checked = true;
+            this.pointToolStripButton.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.pointToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pointToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pointToolStripButton.Image")));
+            this.pointToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pointToolStripButton.Name = "pointToolStripButton";
+            this.pointToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.pointToolStripButton.Text = "Point Tool";
+            this.pointToolStripButton.Click += new System.EventHandler(this.DrawModeChange_Click);
+            // 
+            // boxToolStripButton
+            // 
+            this.boxToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.boxToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("boxToolStripButton.Image")));
+            this.boxToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.boxToolStripButton.Name = "boxToolStripButton";
+            this.boxToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.boxToolStripButton.Text = "Box Tool";
+            this.boxToolStripButton.Click += new System.EventHandler(this.DrawModeChange_Click);
             // 
             // drawTimer
             // 
@@ -429,21 +477,6 @@
             this.pictureBox_SelectedTile.TabIndex = 0;
             this.pictureBox_SelectedTile.TabStop = false;
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // launchGameToolStripButton
-            // 
-            this.launchGameToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.launchGameToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("launchGameToolStripButton.Image")));
-            this.launchGameToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.launchGameToolStripButton.Name = "launchGameToolStripButton";
-            this.launchGameToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.launchGameToolStripButton.Text = "Launch Game";
-            this.launchGameToolStripButton.Click += new System.EventHandler(this.launchGameToolStripButton_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -528,6 +561,9 @@
         private System.Windows.Forms.Label labelTileDetailsBlocking;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton launchGameToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton pointToolStripButton;
+        private System.Windows.Forms.ToolStripButton boxToolStripButton;
     }
 }
 
