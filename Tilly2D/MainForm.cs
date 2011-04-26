@@ -18,8 +18,8 @@ namespace Tilly2D
         private int m_grid_size = 64;
         private int m_max_layers = 10;
 
-        private int start_x = 0;
-        private int start_y = 0;
+        private int m_start_x = 0;
+        private int m_start_y = 0;
 
         private Device m_dev;
         private Sprite m_draw_sprite;
@@ -31,6 +31,10 @@ namespace Tilly2D
 
         private List<int> m_layer_type = new List<int>();
         private List<String> m_layer_name = new List<string>();
+
+        private bool m_first_click = false;
+        private Point m_start_box_position, m_old_position;
+        private List<CSprite> m_old_tiles = new List<CSprite>();
 
         public MainForm()
         {
@@ -151,7 +155,7 @@ namespace Tilly2D
             tile_count_y = tile_count_y > m_grid_size ? m_grid_size : tile_count_y;
 
             //draw base tiles
-            int i = (start_y * m_grid_size) + start_x;
+            int i = (m_start_y * m_grid_size) + m_start_x;
             for (int y = 0; y < tile_count_y; y++)
             {
                 for (int x = 0; x < tile_count_x; x++)
@@ -170,7 +174,7 @@ namespace Tilly2D
             {
                 if (layerCheckBox.GetItemChecked(l))
                 {
-                    i = (start_y * m_grid_size) + start_x;
+                    i = (m_start_y * m_grid_size) + m_start_x;
                     for (int y = 0; y < tile_count_y; y++)
                     {
                         for (int x = 0; x < tile_count_x; x++)
@@ -231,7 +235,7 @@ namespace Tilly2D
                 }
             }
 
-            start_y += change;
+            m_start_y += change;
         }
 
         private void Horizontal_Scroll(object sender, ScrollEventArgs e)
@@ -261,17 +265,20 @@ namespace Tilly2D
                         c++;
                     }
                 }
-                start_x += change;
+                m_start_x += change;
             }
         }
 
         private void UpdateTile(int x, int y, bool left_click)
         {
-            int tile_x = (x / m_tile_size) + start_x;
-            int tile_y = (y / m_tile_size) + start_y;
+            int tile_x = (x / m_tile_size) + m_start_x;
+            int tile_y = (y / m_tile_size) + m_start_y;
             int tile_id = (tile_y * m_grid_size) + tile_x;
 
-            if (tile_id < m_tile[Tile.ActiveLayer].Count && tile_id >= 0 && layerCheckBox.GetItemChecked(Tile.ActiveLayer))
+            if (tile_id < m_tile[Tile.ActiveLayer].Count &&
+                tile_id >= 0 &&
+                layerCheckBox.GetItemChecked(Tile.ActiveLayer)
+                && tile_x >= 0 && tile_y >= 0)
             {
                 if (left_click)
                     m_tile[Tile.ActiveLayer][tile_id].Replace(m_sprite[Tile.Active]);
@@ -282,29 +289,105 @@ namespace Tilly2D
 
         private void OnPanelClick(object sender, MouseEventArgs e)
         {
-            UpdateTile(e.X, e.Y, e.Button == System.Windows.Forms.MouseButtons.Left);
+            if (pointToolStripButton.Checked)
+            {
+                UpdateTile(e.X, e.Y, e.Button == System.Windows.Forms.MouseButtons.Left);
+            }
+            else //box mode drawing
+            {
+                m_first_click = !m_first_click;
+                if (m_first_click)
+                {
+                    m_start_box_position = new Point(e.X, e.Y);
+                    m_old_position = m_start_box_position;
+                    m_old_tiles.Clear();
+                }
+            }
         }
 
         private void OnPanelDrag(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (pointToolStripButton.Checked)
             {
-                UpdateTile(e.X, e.Y, true);
+                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    UpdateTile(e.X, e.Y, true);
+                }
+                else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                {
+                    UpdateTile(e.X, e.Y, false);
+                }
             }
-            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            else
             {
-                UpdateTile(e.X, e.Y, false);
+                if (m_first_click && e.Button != System.Windows.Forms.MouseButtons.None)
+                {
+                    Point end_position = new Point(e.X, e.Y);
+
+                    int min_x = Math.Min(m_start_box_position.X, m_old_position.X);
+                    int min_y = Math.Min(m_start_box_position.Y, m_old_position.Y);
+                    int max_x = Math.Max(m_start_box_position.X, m_old_position.X);
+                    int max_y = Math.Max(m_start_box_position.Y, m_old_position.Y);
+
+                    int start_tile_x = (min_x / m_tile_size) + m_start_x;
+                    int start_tile_y = (min_y / m_tile_size) + m_start_y;
+                    int end_tile_x = (max_x / m_tile_size) + m_start_x;
+                    int end_tile_y = (max_y / m_tile_size) + m_start_y;
+
+                    for (int y = start_tile_y; y <= end_tile_y; y++)
+                    {
+                        for (int x = start_tile_x; x <= end_tile_x; x++)
+                        {
+                            foreach (CSprite tile in m_old_tiles)
+                            {
+                                if (tile.Location == new Point(x, y))
+                                {
+                                    int tile_id = (y * m_grid_size) + x;
+                                    m_tile[Tile.ActiveLayer][tile_id].Replace(m_default_tile);
+                                }
+                            }
+                        }
+                    }
+
+                    m_old_tiles.Clear();
+
+                    min_x = Math.Min( m_start_box_position.X, end_position.X );
+                    min_y = Math.Min(m_start_box_position.Y, end_position.Y);
+                    max_x = Math.Max(m_start_box_position.X, end_position.X);
+                    max_y = Math.Max(m_start_box_position.Y, end_position.Y);
+
+                    start_tile_x = (min_x / m_tile_size) + m_start_x;
+                    start_tile_y = (min_y / m_tile_size) + m_start_y;
+                    end_tile_x = (max_x / m_tile_size) + m_start_x;
+                    end_tile_y = (max_y / m_tile_size) + m_start_y;
+
+                    for (int y = start_tile_y; y <= end_tile_y; y++)
+                    {
+                        for (int x = start_tile_x; x <= end_tile_x; x++)
+                        {
+                            int tile_id = (y * m_grid_size) + x;
+                            m_old_tiles.Add(m_tile[Tile.ActiveLayer][tile_id]);
+                            m_tile[Tile.ActiveLayer][tile_id].Replace(m_sprite[Tile.Active]);
+                        }
+                    }
+
+                    m_old_position = end_position;
+                }
+                else if (e.Button == System.Windows.Forms.MouseButtons.None && m_first_click)
+                {
+                    m_first_click = false; 
+                    Point end_position = new Point(e.X, e.Y);
+                }
             }
 
-            int tile_x = (e.X / m_tile_size) + start_x;
-            int tile_y = (e.Y / m_tile_size) + start_y;
-            int tile_id = (tile_y * m_grid_size) + tile_x;
-            if (tile_id >= 0 && tile_id < m_tile[Tile.ActiveLayer].Count)
+            int tile_x1 = (e.X / m_tile_size) + m_start_x;
+            int tile_y1 = (e.Y / m_tile_size) + m_start_y;
+            int tile_id1 = (tile_y1 * m_grid_size) + tile_x1;
+            if (tile_id1 >= 0 && tile_id1 < m_tile[Tile.ActiveLayer].Count && tile_x1 >= 0)
             {
-                toolStripStatusLabel_TileCoord.Text = "Tile[" + tile_id + "] : " + tile_x + ", " + tile_y;
-                UpdateTileDetails(tile_x, tile_y, tile_id);
+                toolStripStatusLabel_TileCoord.Text = "Tile[" + tile_id1 + "] : " + tile_x1 + ", " + tile_y1;
+                UpdateTileDetails(tile_x1, tile_y1, tile_id1);
             }
-
         }
 
         private void UpdateTileDetails(int x, int y, int id)
@@ -416,6 +499,16 @@ namespace Tilly2D
                 System.Diagnostics.ProcessStartInfo GameProcessInfo = new System.Diagnostics.ProcessStartInfo("GGame.exe");
                 GameProcessInfo.WorkingDirectory = System.IO.Directory.GetCurrentDirectory() + "\\Game\\";
                 System.Diagnostics.Process GameProcess = System.Diagnostics.Process.Start(GameProcessInfo);
+            }
+        }
+
+        private void DrawModeChange_Click(object sender, EventArgs e)
+        {
+            if (((ToolStripButton)sender).Checked == false)
+            {
+                pointToolStripButton.Checked = false;
+                boxToolStripButton.Checked = false;
+                ((ToolStripButton)sender).Checked = true;
             }
         }
     }
